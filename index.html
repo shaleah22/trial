@@ -1,174 +1,406 @@
+//Dec 24 Best Code
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Drill</title>
     <style>
-        #questionImage {
-            max-width: 50%;
-        }
-
-        #levelDisplay {
-            position: fixed;
-            top: 0;
-            right: 0;
-            padding: 10px;
-            background-color: lightgrey;
-        }
+        body { font-family: Arial, sans-serif; }
+        #levelDisplay { position: absolute; right: 20px; top: 20px; }
+        #questionContainer { margin-top: 60px; }
+        #questionImage { max-width: 50%; height: auto;}
     </style>
 </head>
 <body>
-    <div id="levelDisplay">Level: <span id="currentLevel">1</span></div>
-    <div id="questionContainer" style="margin-top: 30px;">
+    <div id="levelDisplay"></div>
+    <div id="externalLinkContainer"></div>
+    <div id="questionContainer">
         <img id="questionImage" src="" alt="Question Image">
         <p id="questionText"></p>
+        <input type="text" id="answerInput" autofocus>
     </div>
-    <input type="text" id="answerInput" autofocus>
+    <div id="reelContainer" style="display: none;"></div>
+    <div id="mapContainer"></div>
+
+    
+    
+
 
     <script>
         const questions = [
-            { question: "1 mix eggs, cheese, tomatoes, red pepper flakes in blender. put into muffins container and cook in oven for 350 degrees at 25 minutes, ", answer: "1" , imageUrl: "https://live.staticflickr.com/65535/53401231223_ee25d35873_n.jpg" },
-            { question: "2 stoos <a href='https://www.stoos.ch/en/pages/parkticket' target='_blank'>https://www.stoos.ch/en/pages/parkticket</a>", answer: "1" , imageUrl: "https://www.leisureopportunities.co.uk/images/HIGH23908_307300.jpg" },
+
+             { question: "Switzerland Map", answer: "1", imageUrl: "https://live.staticflickr.com/65535/53410109790_7668ae9e1a_z.jpg" },
+
+            { question: "1 eggs, cheese, bacon PASSO SELLO",
+              answer: "1",
+              imageUrl: "https://live.staticflickr.com/65535/53402944781_f70d0b3f03_w.jpg",
+              externalLink: '<a href="https://wanderyourway.com/passo-gardena-one-of-the-most-beautiful-drives-in-italy/" target="_blank">Link Text Here</a>',
+              instagramReel: '<iframe src="https://www.instagram.com/reel/Cxa2aBEtJgI/embed" width="400" height="480" frameborder="0" allowtransparency="true" autoplay="true"></iframe>',
+              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10983.784975860091!2d11.7582768!3d46.50917445!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47786ae834380c45%3A0x1d0709882e83eb90!2sSella%20Pass!5e0!3m2!1sen!2sus!4v1702899696422!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+            },
+
+            { question: "2 Bisse de Torrent 1Neuf - Savièze, Valaisn",
+              answer: "1",
+              imageUrl: "https://previews.agefotostock.com/previewimage/medibigoff/e3dcb3f747a093d03c41d46c8e82db01/y5d-3847916.jpg",
+              externalLink: '<a href="https://www.google.com/maps/dir/Interlaken,+Switzerland/Bisse+du+Torrent+Neuf,+1965+Savi%C3%A8se,+Switzerland/@46.5088099,7.3568332,10z/data=!4m13!4m12!1m5!1m1!1s0x1453996a31921a05:0x9c111af14c02be00!2m2!1d7.8632049!2d46.6863481!1m5!1m1!1s0x478edd0bf97ac7a7:0x96cd0681f62b5258!2m2!1d7.3233587!2d46.2577788?entry=ttu" target="_blank">Map</a>',
+              instagramReel: '<iframe src="https://www.instagram.com/reel/CxqNVpKsyvA/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',
+              map: '<iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB29Em9jRs7sxUew_W38oGFYOsXR4For6A=Bisse%20de%20Torrent-Neuf%2C%20Savi%C3%A8se%2C%20Switzerland" allowfullscreen></iframe>',
+              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d11034.480571663093!2d7.3233587!3d46.2577788!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478edd0bf97ac7a7%3A0x96cd0681f62b5258!2sBisse%20du%20Torrent%20Neuf!5e0!3m2!1sen!2sus!4v1702899357946!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+
+            },
+
+            /*
+            { question: "2.a ",
+              answer: "1",
+              imageUrl: "",
+              externalLink: '<a href="link" target="_blank">link name</a>',
+              instagramReel: '<iframe src="LINK/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',
+              map: 
+
+            },
+
+            */
+
+            
+            { question: "2.a Seceda in Ortesei",
+              answer: "1",
+              imageUrl: "https://mominitaly.com/wp-content/uploads/2023/06/family-hiking-seceda-dolomites-italy-scaled.jpg",
+              externalLink: '<a href="https://www.google.com/maps/place/Seceda+Ridgeline/@46.601581,11.7341776,3a,75y,90t/data=!3m8!1e2!3m6!1sAF1QipP6ZmrIb-9xkhxdstJ2TxApgqaH9bwQDip76eHJ!2e10!3e12!6shttps:%2F%2Flh5.googleusercontent.com%2Fp%2FAF1QipP6ZmrIb-9xkhxdstJ2TxApgqaH9bwQDip76eHJ%3Dw114-h86-k-no!7i4000!8i3000!4m16!1m8!3m7!1s0x477813ee15dae6ab:0xfb0dc80bc6d0534f!2sSeceda!8m2!3d46.5980566!4d11.7241679!10e5!16s%2Fg%2F122n5qh0!3m6!1s0x4778138ebc9a62fb:0x71d97c157cd7bf25!8m2!3d46.601581!4d11.7341776!10e5!16s%2Fg%2F11rq14p8t_?entry=ttu" target="_blank">link name</a>',
+              instagramReel: '<iframe src="https://www.instagram.com/reel/CuVHFmOOOIW/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',
+              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10965.810766281194!2d11.7241679!3d46.59805605!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x477813ee15dae6ab%3A0xfb0dc80bc6d0534f!2sSeceda!5e0!3m2!1sen!2sus!4v1702901547174!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+
+            },
+
+
+
+   
+            { question: "2.b Hoher Kasten Switzerland Appenzell",
+              answer: "1",
+              imageUrl: "https://www.thefamilyof5.com/post/hoher-kasten-top-of-appenzell-ai-swiss-tour-2020",
+              externalLink: '<a href="link" target="_blank">dead link</a>',
+              instagramReel: '<iframe src="https://www.instagram.com/reel/CxLsUu0sb7k/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',
+              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30405.615188799788!2d9.465402100365148!3d47.290989665622085!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x479b24afb641d585%3A0x6da317254da55368!2sHoher%20Kasten!5e0!3m2!1sen!2sus!4v1702982068936!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+
+            },
 
             
 
 
-              { question: "What is 10% of 30?", answer: "3", imageUrl: "" },
+            { question: "2.c GLACIER CANYON GRINDELWALD ",
+              answer: "1",
+              imageUrl: "",
+              externalLink: '<a href="link" target="_blank">DEAD LINK name</a>',
+              instagramReel: '<iframe src="https://www.instagram.com/reel/CxM3EgnKKym/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',
+              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2740.6772975474128!2d8.046487200000007!3d46.61338000000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478f9c0f125fd42d%3A0x40559d2b018d3cff!2sOUTDOOR%20-%20Glacier%20Canyon%20Grindelwald!5e0!3m2!1sen!2sus!4v1702983041041!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
 
-              { question: "What is 10% of 300?", answer: "30", imageUrl: "" },
+            },
 
-              { question: "What is 1% of 300?", answer: "3", imageUrl: "" },
-
-              { question: "To find 10% of a number, move the decimal (1, 2) _______ place(s) to the left", answer: "1", imageUrl: "" },
-
-              { question: "To find 1% of a number, move the decimal (1, 2) ________place(s) to the left", answer: "2", imageUrl: "" },
-
-
-              { question: "To find 50% of a number, divide the number by ____ (1, 2, 3, 4)", answer: "2", imageUrl: "" },
-
-              { question: "In an ordered pair (x, y) , the first value, x, tells you how far to go <br> a. to the left or right <br> b. up or down<br> Type in letter choice", answer: "a", imageUrl: "" },
-
-
-              { question: "In an ordered pair (x, y) , the second value, y, tells you how far to go to the <br> a. left or right <br> b. up or down<br> Type in letter choice", answer: "b", imageUrl: "" },
-
-
-            { question: "A rational number is any number that can be written as a _______", answer: "fraction", imageUrl: "https://slideplayer.com/5920475/19/images/slide_1.jpg" },
-
-
-            //6.DP.1.2 Mean, Median, Mode
-              { question: "What is the mean of 10, 20, 60", answer: "30", imageUrl: "https://cdn.virtualnerd.com/thumbnails/Alg1_14_01_0008-diagram_thumb-lg.png" },
-
-               //6.DP.1.2 Mean, Median, Mode
-              { question: "What is the mode?  1, 2, 3, 3, 3, 4, 5", answer: "3", imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKSA5CJf-8BkzqE286lzjxyXhSFUfYqMXarA&usqp=CAU" },
-
-              { question: "- 6 - 7 = ", answer: "-13", imageUrl: "" },
-
-              { question: "- 7 - 8 = ", answer: "-15", imageUrl: "" },
-
-              { question: "- 8 - 9 = ", answer: "-17", imageUrl: "" },
-
-              { question: "- 8 - 3 = ", answer: "-11", imageUrl: "" },
-
-
-              { question: "- 8 - 4 = ", answer: "-12", imageUrl: "" },
-
-              { question: "- 8 - 5 = ", answer: "-13", imageUrl: "" },
-
-              { question: "- 8 - 6 = ", answer: "-14", imageUrl: "" },
-
-              { question: "- 9 - 7 = ", answer: "-16", imageUrl: "" },
-
-              { question: "- 9 - 6 = ", answer: "-15", imageUrl: "" },
-
-              { question: "- 9 - 5 = ", answer: "-14", imageUrl: "" },
-
-              { question: "What is the prime factorization of 20? <br><br> a. 4 x 5 <br>b. 2 x 10 <br>c. 2 x 2 x 5 <br>Type in letter choice", answer: "c", imageUrl: "" },
-
-              { question: "What expression is equivalent to 3(5x - 2)<br>a. 15x - 2<br>b. 15x + 6<br>c. 15x - 6", answer: "c", imageUrl: "" },
+            
 
 
 
+            { question: '3  Alpine Mountain Coaster. 45 minutes southeast of Interlaken by that pretty big lake ', answer: "1", imageUrl: "", instagramReel:  '<iframe src="https://www.instagram.com/reel/Cv87QSYgypk/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>', map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10985.21161245853!2d7.6969517!3d46.5021142!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478f066c91d5553f%3A0xf4a8b7d28698a79d!2sRodelbahn%20Oeschinensee!5e0!3m2!1sen!2sus!4v1702978831497!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' },
+
+ 
+            
+
+            
+            
+
+            { question: '4 stoos <a href="https://www.stoos.ch/en/pages/parkticket" target="_blank">https://www.stoos.ch</a>', answer: "1", imageUrl: "https://www.leisureopportunities.co.uk/images/HIGH23908_307300.jpg" },
 
 
-                //one step equation with fraction coefficients
-              { question: "What is the value of h", answer: "18", imageUrl: "https://slideplayer.com/16610066/96/images/slide_4.jpg" },
+            { question: '5 Crumble up feta cheese. Make a beef ball. Roll it in pepper. Crust it with feta all the way around. Smash with parchment paper  <a href="https://www.instagram.com/reel/Cw8F13wLlyc/?igshid=MzRlODBiNWFlZA==" target="_blank">https://www.instagram.com/reel/Cw8F13wLlyc/?igshid=MzRlODBiNWFlZA==</a> "', answer: "1", imageUrl: "https://live.staticflickr.com/65535/53403104976_b194a0260f_w.jpg", instagramReel: '<iframe src="https://www.instagram.com/reel/Cw8F13wLlyc/embed" width="400" height="480" frameborder="0" allowtransparency="true" autoplay="true"></iframe>', },
+            { question: "5.B Hotel Berghof Amaranth, next to Interlaken. 30 minutes west of Grindelwald June 24 to 25", answer: "1", imageUrl: "https://media-cdn.tripadvisor.com/media/photo-s/19/2e/ba/f8/hotel-berghof-amaranth.jpg" , map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10952.301534803184!2d7.8565607!3d46.6647728!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478fa478fffa799b%3A0x8b775d5e8e88801b!2sHotel%20Berghof%20Amaranth!5e0!3m2!1sen!2sus!4v1702899442623!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',},
+
+             
+            { question: "5.c Oeschinensee Need more info  ",
+              answer: "1",
+              imageUrl: "",
+              externalLink: '<a href="link" target="_blank">link name</a>',
+              instagramReel: '<iframe src="https://www.instagram.com/reel/CvrzwHEq6kV/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',
+              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10985.938268662327!2d7.7254832!3d46.49851775000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478f08a670704edd%3A0x30815e0b3a5ce4ee!2sOeschinen%20Lake!5e0!3m2!1sen!2sus!4v1702979940553!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+
+            },
+
+            
+
+             { question: "6 Gardena Pass",
+              answer: "1",
+              instagramReel: '<iframe src="https://www.instagram.com/reel/Cw71zGzsu4z/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',
+              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10975.532360953397!2d11.809444!3d46.54999945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47781565cba253b9%3A0xcc38e293b7108587!2sGardena%20Pass!5e0!3m2!1sen!2sus!4v1702899108706!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+            },
+
+            { question: "7 Furka Pass Near Grimselpass Overlook", answer: "1", imageUrl: "https://static.wixstatic.com/media/a65833_5ccf1a335b2a4ce78592c3cff4a3622e~mv2.jpg/v1/fill/w_1428,h_1086,al_c/a65833_5ccf1a335b2a4ce78592c3cff4a3622e~mv2.jpg", map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10970.999998607514!2d8.4148637!3d46.57240895!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47857938f20195e9%3A0x4ec4487edce90c12!2sFurka%20Pass!5e0!3m2!1sen!2sus!4v1702898948413!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',  },
+            { question: "8 Holiday Inn Express Milan-Malpensa right by airport", answer: "1", imageUrl: "https://live.staticflickr.com/65535/53402944771_f7ae972ea8_w.jpg", map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d11158.164354885914!2d8.712441!3d45.6399546!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47866165d1517d89%3A0xa1510da0f7510d66!2sHoliday%20Inn%20Express%20Milan%20-%20Malpensa%20Airport%2C%20an%20IHG%20Hotel!5e0!3m2!1sen!2sus!4v1702978530211!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' },
+            { question: "9  What is the prime factorization of 30", answer: "1", imageUrl: "https://images.saymedia-content.com/.image/t_share/MTg0MjExNTc3ODk1OTIxNTM5/how-to-write-a-number-as-a-product-of-its-prime-factors.jpg" },
+            { question: "10  Brienzer Rothorn Ridge Trail Parking Parkplatz der Rothorn-Bahn. Northeast side of Brienzersee Lake near Brienz ", answer: "1", imageUrl: "https://swissfamilyfun.com/wp-content/uploads/2018/06/brienzerrothorn-trail04.jpg" , map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1516.4932599505394!2d8.035625047543718!3d46.75542468507287!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478f97538f539f05%3A0x4b4e923fa867960b!2sParkplatz%20der%20Rothorn-Bahn!5e0!3m2!1sen!2sus!4v1702978314488!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'},
+
+            { question: "11  Parking Parkplatz der Rothorn-Bahn for Rothorn Ridge Trail", answer: "1", imageUrl: "https://swissfamilyfun.com/wp-content/uploads/2018/06/brienzrothorn-parking-map.jpg", map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10934.004183167834!2d8.0364752!3d46.7550195!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478f97538f539f05%3A0x4b4e923fa867960b!2sParkplatz%20der%20Rothorn-Bahn!5e0!3m2!1sen!2sus!4v1703064595080!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' },
+
+            { question: "12 The _____ gorge is twelve chf and the Parkplatz Aareschlucht West Free Parking Lot. 15 MINUTES SOUTHEAST OF BRIENZ" , answer: "1", imageUrl: "https://portfolio.photoseek.com/img-get/I0000_iQ65cQDP7g/s/1200/I0000_iQ65cQDP7g.jpg", map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10941.053544464688!2d8.2030364!3d46.7202663!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478f8f8a2c9307c1%3A0x2b0f97925ba9c8d!2sParkplatz%20Aareschlucht%20West!5e0!3m2!1sen!2sus!4v1702978715425!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' },
+            { question: '12.B Gelmerbahn 36 chf for the cogway train parkplatz nearby is free.  This place is 37 minutes southeast of __________ <a href="https://besucherdienst.kwo.ch/path/app/?rq_AppGuid=8D22CAF932CD8A2075581101B4CB4052EB467914&rq_TargetPageGuid=5A0DA71A66CD9B0335F5D277BD1F03DB01B2E45A&qs_link=53D2B4BEA34BC0DEA00CB096D49DC6F0B7461BEF&qs_mode=new&qs_page=5A0DA71A66CD9B0335F5D277BD1F03DB01B2E45A&qs_reload=5A0DA71A66CD9B0335F5D277BD1F03DB01B2E45A&qs_rq_inetItemPk=enE9824F398C9CDEDED9D00CC91BE5500F8832082A" target="_blank">Gelmerbahn</a>"' , answer: "1", imageUrl: "https://travelmusefamily.com/wp-content/uploads/2016/01/FD847E4B-AACD-4CAE-AF69-857555673F1D.jpeg", instagramReel: '<iframe src="https://www.instagram.com/reel/Cw71zGzsu4z/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>' },
+            
+            { question: "12.C ______ OVERLOOK. CLOSE TO GELMERBAHN IF ROAD IS OPEN. ONE HOUR SOUTHEAST OF BRIENZ IF ROAD OPEN" , answer: "1", imageUrl: "https://www.cycling-challenge.com/wp-content/uploads/2010/09/4977262382_19cb078533_b.jpg" },
+            
+            { question: "13  Flumserberg Alpine Flora Trail near Appenzell. Tannenboden gondola lift 10 chf roundtrip. This trail is accessed from the Tannenboden-Maschgenkamm gondola. Southeast Switzerland.   " , answer: "1", externalLink: '<a href="https://swissfamilyfun.com/flumserberg-flower-trail/" target="_blank">Swiss Family Fun Info</a>', imageUrl: "https://swissfamilyfun.com/wp-content/uploads/2006/09/flumserberg-flower-trail-cloudy.jpg" , map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d173752.34149682036!2d9.13817267599118!3d47.121016567861446!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x479b2b361c10e319%3A0x4af1123a0d96917c!2sParking%20Flumserberg%20Tannenboden!5e0!3m2!1sen!2sus!4v1703063921914!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'},
+            { question: '14  ___ kulm (hill)  tickets for cogway train about 50 chf round trip with no discount goldau to rigi klum can buy online <a href="https://www.rigi.ch/en/experience/rigi-mountain-railways/cogwheel-train-goldau-rigi-kulm" target="_blank">https://www.rigi.ch/en/experience/rigi-mountain-railways/cogwheel-train-goldau-rigi-kulm</a>"', answer: "1", imageUrl: "https://swissfamilyfun.com/wp-content/uploads/2021/09/rigi-panorama-google-earth-labeled.jpg", instagramReel: '<iframe src="https://www.instagram.com/reel/CxOQck3tgfY/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>', map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2719.042210416905!2d8.530575260308293!3d47.03940252069615!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478557e2f2df2d23%3A0xed7633deb39d8efd!2sParkplatz%20Kr%C3%A4bel!5e0!3m2!1sen!2sus!4v1702983337018!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'},
+            { question: "15 what is the answer to life, the universe, and everything?", answer: "1", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/c/c0/Douglas_adams_portrait_cropped.jpg" },
+            { question: "16  where do you park and get the gondola for grosser mythen? Parkplatz Brunni", answer: "1" , imageUrl: "https://flyingcdn-44f099d7.b-cdn.net/wp-content/uploads/2022/05/Kleiner-Mythen-hike-2-1024x682.jpg", map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10875.554406616333!2d8.7032083!3d47.0424167!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47854d0099547755%3A0xd4804c39b3e2e198!2sParkplatz%20Brunni!5e0!3m2!1sen!2sus!4v1703068327599!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' },    
+            { question: "17  parking for Rigi Panorama Trail ____strasse44", answer: "1", imageUrl: "https://www.homeschwiizhome.com/wp-content/uploads/2017/08/IMG_3778-1-1030x773.jpg" },
+            { question: "18 Saxer Lucke Appenzell Parking Small potentially frustrating buy ticket from english german machine 36 for straubahn gondola", answer: "1", imageUrl: "https://theportuguesetraveler.com/wp-content/uploads/2022/01/the-saxer-lucke-at-sunset.jpg"  },
+            { question: "19 schafler ridge in appenzell area find wasserauen and the ______bahn", answer: "1", imageUrl: "https://www.journeyera.com/wp-content/uploads/2020/05/interlaken-hiking-guide-hikes-near-interlaken-04228-1024x682.jpg" },
+            { question: "20 What is the name of this location?", answer: "1", imageUrl: "https://www.journeyera.com/wp-content/uploads/2019/10/saxer-lucke-hike-hoher-kasten-05554.jpg" },
+            { question: '21 Mannlichen to Kleine Scheidegg, start in Mannlichen as it is a downhill hike that way. Get a cable car in Grindelwald 32 chf <a href="https://www.interlaken.ch/shop/toi_en/tickets/bergbahn/angebote/maennlichen" target="_blank">Mannlichen</a>"', answer: "1", imageUrl: "https://s27363.pcdn.co/wp-content/uploads/2020/05/Mannlichen-Hike-Switzerland.jpg.optimal.jpg", instagramReel: '<iframe src="https://www.instagram.com/reel/CwnWiW3MnRO/" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>', map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d21923.489689444854!2d7.938064700000001!3d46.618143749999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478f9f36c54cad91%3A0x5f3614ab836416fd!2sStart%20Panoramaweg%20%22M%C3%A4nnlichen%20zur%20Kleinen%20Scheidegg%22!5e0!3m2!1sen!2sus!4v1702984645295!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'},
+            { question: "22 Parkplatz Brunni for Grosser Mythen. Can pay online 1 CHF per hour for parking", answer: "1", imageUrl: "https://live.staticflickr.com/65535/53402951701_85ed66fbd6_c.jpg" },
+            { question: "23", answer: "1", imageUrl: "" },
+            { question: '24 Frumsem Luftseibahn Staubern for Saxer Lucke  <a href="https://www.google.ch/maps/place/Fr%C3%BCmsen,+Luftseilbahn+Staubern/@47.2443611,9.4631503,2271m/data=!3m1!1e3!4m15!1m8!3m7!1s0x479b252e4863ac73:0x935ab6c681f63560!2sFr%C3%BCmsen,+9467+Sennwald,+Switzerland!3b1!8m2!3d47.24509!4d9.47345!16s%2Fg%2F1233dvnxy!3m5!1s0x479b25d0d11698ef:0xda35d23fa891fb38!8m2!3d47.2476748!4d9.4705109!16s%2Fg%2F11h_10vwhm?entry=ttu" target="_blank">Frumsem</a>"', answer: "1", imageUrl: "https://live.staticflickr.com/65535/53403288644_b9f6296239_c.jpg" },
+            
 
 
-              //MA.6.AR.3.1 Ratios
-             { question: "A garden has 4 tulips and 3 daisies. What is the ratio of daises to all flowers in the garden? Enter your answer as a fraction.", answer: "3/7", imageUrl: "" },
+            
+            { question: "24.a MAP OF SWITZERLAND ",
+              answer: "1",
+              imageUrl: "https://www.flickr.com/photos/199787287@N08/53410109790/in/dateposted-public/",
+             
+
+            },
+          
+            
+
+            { question: '25 Aare Gorge Aareschlucht <a href="https://www.instagram.com/reel/CuJi6KdN7FQ"target="_blank">Instagram</a>', answer: "1", imageUrl: "https://media.myswitzerland.com/image/fetch/c_lfill,g_auto,w_3200,h_1800/f_auto,q_80,fl_keep_iptc/https://www.myswitzerland.com/-/media/st/gadmin/images/partner/di_renzo_aareschlucht_steg_36164.jpg" },
 
 
-             //MA.6.AR.3.2 Unit Rate
-              { question: "Tom drove 300 miles in 6 hours. What is the unit rate in miles per hour? ____ miles per hour", answer: "50", imageUrl: "" },
 
-            // Add more questions here...
+            { question: "26", answer: "1", imageUrl: "" },
+            { question: "27", answer: "1", imageUrl: "" },
+            { question: "28", answer: "1", imageUrl: "" },
+            { question: "29", answer: "1", imageUrl: "" },
+            { question: "30", answer: "1", imageUrl: "" },
+            { question: "31", answer: "1", imageUrl: "" },
+            { question: "32", answer: "1", imageUrl: "" },
+            { question: "33", answer: "1", imageUrl: "" },
+            { question: "34", answer: "1", imageUrl: "" },
+            { question: "35", answer: "1", imageUrl: "" },
+            { question: "36", answer: "1", imageUrl: "" },
+            { question: "37", answer: "1", imageUrl: "" },
+            { question: "38", answer: "1", imageUrl: "" },
+            { question: "39", answer: "1", imageUrl: "" },
+            { question: "40", answer: "1", imageUrl: "" },
+            { question: "41", answer: "1", imageUrl: "" },
+            { question: "42", answer: "1", imageUrl: "" },
+
+            
+
+
+
+
+            { question: "43 new question added", answer: "1", imageUrl: "" },
+
+             { question: "44 very new question", answer: "1", imageUrl: "" },
+
+            { question: "45 MA.6.NSO.1.1 Which integer has the greater value? -3 or -5", answer: "-3", imageUrl: "https://d20khd7ddkh5ls.cloudfront.net/positives_and_negatives.jpg" },
+            { question: "46 MA.6.NSO.1.2 opposites ", answer: "1", imageUrl: "" },
+            { question: "47 MA.6.NSO.1.3 ABSOLUTE VALUE ", answer: "1", imageUrl: "" },
+            { question: "48 MA.6.NSO.1.4 ABSOLUTE VALUE OPERATIONS", answer: "1", imageUrl: "" },
+            { question: "49 MA.6.NSO.2.1 MULTIPLYING AND DIVIDING DECIMALS How many places would you move the decimal in your answer for 1.2 x 0.03?", answer: "3", imageUrl: "" },
+            { question: "50 dividing fractions. When do you keep, change, flip?  Type in +, -, x, or /", answer: "/", imageUrl: "https://images.squarespace-cdn.com/content/v1/54905286e4b050812345644c/1616006538446-KFTGCO0RLTBHQHWIBF2D/Snip20210317_3.png" },
+
+            { question: "51 MA.6.NSO.2.3 OPERATIONS WORD PROBLEMS", answer: "1", imageUrl: "" },
+            
+
+            { question: "52    MA.6.NSO.3.1 What is the greatest common factor (GCF) of 280 and 144??", answer: "8", imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKMvNZfyWFzyWN4QAu6QDJ5fmtVIhYlHkLQbxDbO6SHNA--2UDvBhkITnG-_gx3wlcbmg&usqp=CAU" },
+            { question: "53 MA.6.NSO.3.1 What is the least common multiple of 8 and 12  ", answer: "24", imageUrl: "https://static.qumath.in/static/website/old-cdn-static/common-factor/lcm-of-8-and-12-by-listing-multiples-method.png" },
+            { question: "54 MA.6.NSO.3.1  DISTRIBUTIVE PROPERTY", answer: "1", imageUrl: "" },
+            { question: "55 MA.6.NS0.3.3 EXPONENTS", answer: "1", imageUrl: "" },
+            { question: "56 MA.6.NSO.3.4 PRIME FACTORIZATION What is the prime factorization of 42? No spaces and put them in order. Don't forget multiplication signs.", answer: "2x3x7", imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG9V_HolCh-phywvBz8v7nvkdTp8zdHmOA5xfd-yQBoofOcqhqOqhMqu-4YVlL_f1aaU4&usqp=CAU" },
+
+
+             { question: '57 Aare Gorge Aareschlucht <a href="https://www.instagram.com/reel/CuJi6KdN7FQ"target="_blank">Instagram</a>', answer: "1", imageUrl: "https://media.myswitzerland.com/image/fetch/c_lfill,g_auto,w_3200,h_1800/f_auto,q_80,fl_keep_iptc/https://www.myswitzerland.com/-/media/st/gadmin/images/partner/di_renzo_aareschlucht_steg_36164.jpg" },
+
+
+            { question: "58",
+              answer: "1",
+              instagramReel: '<iframe src="https://www.instagram.com/reel/Cw71zGzsu4z/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>'
+            },
+
+
+
+
+            { question: "59 MA.6.NSO.3.3 EXPONENTS What is the value?", answer: "1/64", imageUrl: "https://study.com/cimages/multimages/16/fraction_with_exponent7962331627880981711.jpg" },
+            { question: "60 MA.6.NSO.3.5 fdp equivalents Enter the fraction equivalent of 65%", answer: "13/20", imageUrl: "" },
+            { question: "61 MA.6.NSO.4.1 What is 15 - (-33)", answer: "48", imageUrl: "" },
+            { question: "62 MA.6.NSO.4.2 What is (6)(-8)", answer: "-48", imageUrl: "" },
+            { question: "63 6.AR.1.1 Expressions Type in letter choice", answer: "b", imageUrl: "https://www.flickr.com/photos/199787287@N08/53407654858/in/dateposted-public/" },
+            { question: "64  6.AR.1.2 At a restaurant, persons 10 and under can purchase meals from the children’s menu. Write an inequality to represent the ages of persons who can purchase from the children's menu. Type in <, >, <=, or >=       p ___ 10.  ", answer: "1", imageUrl: "https://www.flickr.com/photos/199787287@N08/53407671353/in/dateposted-public/" },
+            { question: "65 MA.6.AR.1.3 Evaluate 4m + 2 when m = -4", answer: "-14", imageUrl: "" },
+            { question: "66 6.AR.1.4 combine like terms equivalent expressions", answer: "1", imageUrl: "" },
+            { question: "67 6.AR.2.1 one step equations What is the value of c? c + 14 = -20", answer: "-34", imageUrl: "" },
+            { question: "68 6.AR.2.2 A number, n, when added to 20 equals negative 10.  What is the value of n?", answer: "-30", imageUrl: "" },
+            { question: "41", answer: "1", imageUrl: "" },
+            { question: "42", answer: "1", imageUrl: "" },
+
+           { question: "If the ratio of cats to dogs in a pet store is 3:2 and there are 18 cats, how many dogs are there?", answer: "12 dogs", },
+          
+          { question: "What is the area of a trapezoid with bases of 8 cm and 5 cm and a height of 4 cm? _______square centimeters", answer: "26", },
+         
+          { question: "A number is 25% of 80. What is the number?", answer: "20", },
+        
+        
+
+
+           
+
+            // ... add more questions here
         ];
 
-        let currentLevel = 1;
-        let startTime;
-        const timeLimit = 10 * 1000; // 10 seconds
-        const dailyLimit = 2 * 60 * 1000; // 2 minutes
-        let timeSpentToday = 0;
-        const levelDisplay = document.getElementById('currentLevel');
-        const questionImage = document.getElementById('questionImage');
-        const questionText = document.getElementById('questionText');
-        const answerInput = document.getElementById('answerInput');
 
-        function startLevel(level) {
-            startTime = new Date();
-            levelDisplay.textContent = level;
-            currentLevel = level;
-            loadQuestionsForLevel(level);
+
+                  // ... existing code ...
+
+          // New function to get the current date without time
+          function getTodayString() {
+              const now = new Date();
+              return now.toISOString().split('T')[0];
+          }
+
+          function startUsageTimer() {
+              const today = getTodayString();
+              const startTime = localStorage.getItem('drillStartTime');
+              const lastUsedDate = localStorage.getItem('lastUsedDate');
+
+              // If the drill hasn't been used today, reset the timer
+              if (lastUsedDate !== today) {
+                  localStorage.setItem('drillStartTime', Date.now());
+                  localStorage.setItem('lastUsedDate', today);
+              } else if (startTime && (Date.now() - startTime) >= 60000) {
+                  // If the user has already used the drill for 1 minute today, show an alert and prevent further use
+                  alert("You've reached your daily limit. Please come back tomorrow.");
+                  throw new Error("Daily limit reached"); // Stop executing further code
+              }
+          }
+
+          function init() {
+              // Call the function to start the usage timer
+              startUsageTimer();
+
+              // The rest of the initialization logic from the second init function
+              document.getElementById('levelDisplay').innerText = `Level: ${currentLevel}`;
+              levelQuestions = shuffleArray(questions.slice(currentLevel - 1, currentLevel + 9));
+              currentQuestionIndex = 0;
+              startTimer();
+              loadNextQuestion();
+          }
+
+// ... rest of your existing code ...
+
+
+        let currentLevel = parseInt(localStorage.getItem('currentLevel')) || 1;
+        let currentQuestionIndex = 0;
+        let levelQuestions = [];
+        let timer;
+
+
+        /*
+        function init() {
+            document.getElementById('levelDisplay').innerText = `Level: ${currentLevel}`;
+            levelQuestions = shuffleArray(questions.slice(currentLevel - 1, currentLevel + 9));
+            currentQuestionIndex = 0;
+            startTimer();
+            loadNextQuestion();
         }
+        */
 
-        function loadQuestionsForLevel(level) {
-            // Randomize and display questions for the current level
-            // Code to implement randomization and display logic goes here
-            displayQuestion(level - 1);
-        }
-
-        function displayQuestion(index) {
-            if (index < questions.length) {
-                questionImage.src = questions[index].imageUrl;
-                questionText.innerHTML = questions[index].question;
-                answerInput.value = '';
-            }
-        }
-
-        function checkAnswer() {
-            // Check if the answer is correct, and move to the next question or level
-            // Code to implement answer checking and progression logic goes here
-            if (answerInput.value === questions[currentLevel - 1].answer) {
-                if (currentLevel % 10 === 0) {
-                    alert("Congratulations. You have mastered this level.");
-                    startLevel(currentLevel + 1);
-                } else {
-                    displayQuestion(currentLevel++);
-                }
-            }
-        }
-
-        answerInput.addEventListener('input', () => {
-            checkAnswer();
-        });
-
-        // Check for daily time limit
-        setInterval(() => {
-            const now = new Date();
-            if (now - startTime > timeLimit) {
+        function startTimer() {
+            clearTimeout(timer);
+            timer = setTimeout(function() {
                 alert("Time's up!");
-                location.reload();
+                location.reload(); // Reloads the current level
+            }, 30000); // 30 seconds for the entire level
+        }
+
+        function loadNextQuestion() {
+            if (currentQuestionIndex >= 10) {
+                clearTimeout(timer);
+                alert("Congratulations. You have mastered this level.");
+                currentLevel++;
+                localStorage.setItem('currentLevel', currentLevel);
+                init();
+                return;
             }
 
-            timeSpentToday += now - startTime;
-            if (timeSpentToday > dailyLimit) {
-                alert("You've reached your daily limit. Please come back tomorrow.");
-                location.reload();
-            }
-            startTime = now;
-        }, 1000);
+            displayQuestion(levelQuestions[currentQuestionIndex]);
+        }
 
-        // Start the drill
-        startLevel(1);
+       
+
+
+
+        function displayQuestion(question) {
+            document.getElementById('questionText').innerHTML = question.question;
+
+            const questionImage = document.getElementById('questionImage');
+            if (question.imageUrl) {
+                questionImage.src = question.imageUrl;
+                questionImage.style.display = 'block'; // Show the image if the URL is provided
+            } else {
+                questionImage.style.display = 'none'; // Hide the image element if the URL is not provided
+            }
+
+            const answerInput = document.getElementById('answerInput');
+            answerInput.value = '';
+            answerInput.oninput = () => checkAnswer(question.answer, answerInput.value);
+
+            if (question.externalLink) {
+                document.getElementById('externalLinkContainer').innerHTML = question.externalLink;
+            } else {
+                document.getElementById('externalLinkContainer').innerHTML = ''; // Or set to some default value
+            }
+
+            //Handling Instagram Reel
+            const reelContainer = document.getElementById('reelContainer'); 
+            if (question.instagramReel) {
+                reelContainer.innerHTML = question.instagramReel;
+                reelContainer.style.display = 'block';
+            } else {
+                reelContainer.style.display = 'none';
+            }
+            
+
+        
+
+            // Handling the Map
+            const mapContainer = document.getElementById('mapContainer');
+            if (question.map) {
+                mapContainer.innerHTML = question.map;
+                mapContainer.style.display = 'block';
+            } else {
+                mapContainer.style.display = 'none';
+            }
+        }
+
+
+
+        
+        function checkAnswer(correctAnswer, userAnswer) {
+            if (userAnswer === correctAnswer) {
+                currentQuestionIndex++;
+                loadNextQuestion();
+            }
+        }
+        
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        
+        init();
+
     </script>
 </body>
 </html>
