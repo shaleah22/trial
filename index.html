@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Interactive Drill</title>
+    <style>
+        #questionImage {
+            max-width: 50%;
+        }
+
+        #levelDisplay {
+            position: fixed;
+            top: 0;
+            right: 0;
+            padding: 10px;
+            background-color: lightgrey;
+        }
+    </style>
+</head>
+<body>
+    <div id="levelDisplay">Level: <span id="currentLevel">1</span></div>
+    <div id="questionContainer" style="margin-top: 30px;">
+        <img id="questionImage" src="" alt="Question Image">
+        <p id="questionText"></p>
+    </div>
+    <input type="text" id="answerInput" autofocus>
+
+    <script>
+        const questions = [
+            { question: "1 mix eggs, cheese, tomatoes, red pepper flakes in blender. put into muffins container and cook in oven for 350 degrees at 25 minutes, ", answer: "1" , imageUrl: "https://live.staticflickr.com/65535/53401231223_ee25d35873_n.jpg" },
+            { question: "2 stoos <a href='https://www.stoos.ch/en/pages/parkticket' target='_blank'>https://www.stoos.ch/en/pages/parkticket</a>", answer: "1" , imageUrl: "https://www.leisureopportunities.co.uk/images/HIGH23908_307300.jpg" },
+
+            
+
+
+              { question: "What is 10% of 30?", answer: "3", imageUrl: "" },
+
+              { question: "What is 10% of 300?", answer: "30", imageUrl: "" },
+
+              { question: "What is 1% of 300?", answer: "3", imageUrl: "" },
+
+              { question: "To find 10% of a number, move the decimal (1, 2) _______ place(s) to the left", answer: "1", imageUrl: "" },
+
+              { question: "To find 1% of a number, move the decimal (1, 2) ________place(s) to the left", answer: "2", imageUrl: "" },
+
+
+              { question: "To find 50% of a number, divide the number by ____ (1, 2, 3, 4)", answer: "2", imageUrl: "" },
+
+              { question: "In an ordered pair (x, y) , the first value, x, tells you how far to go <br> a. to the left or right <br> b. up or down<br> Type in letter choice", answer: "a", imageUrl: "" },
+
+
+              { question: "In an ordered pair (x, y) , the second value, y, tells you how far to go to the <br> a. left or right <br> b. up or down<br> Type in letter choice", answer: "b", imageUrl: "" },
+
+
+            { question: "A rational number is any number that can be written as a _______", answer: "fraction", imageUrl: "https://slideplayer.com/5920475/19/images/slide_1.jpg" },
+
+
+            //6.DP.1.2 Mean, Median, Mode
+              { question: "What is the mean of 10, 20, 60", answer: "30", imageUrl: "https://cdn.virtualnerd.com/thumbnails/Alg1_14_01_0008-diagram_thumb-lg.png" },
+
+               //6.DP.1.2 Mean, Median, Mode
+              { question: "What is the mode?  1, 2, 3, 3, 3, 4, 5", answer: "3", imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKSA5CJf-8BkzqE286lzjxyXhSFUfYqMXarA&usqp=CAU" },
+
+              { question: "- 6 - 7 = ", answer: "-13", imageUrl: "" },
+
+              { question: "- 7 - 8 = ", answer: "-15", imageUrl: "" },
+
+              { question: "- 8 - 9 = ", answer: "-17", imageUrl: "" },
+
+              { question: "- 8 - 3 = ", answer: "-11", imageUrl: "" },
+
+
+              { question: "- 8 - 4 = ", answer: "-12", imageUrl: "" },
+
+              { question: "- 8 - 5 = ", answer: "-13", imageUrl: "" },
+
+              { question: "- 8 - 6 = ", answer: "-14", imageUrl: "" },
+
+              { question: "- 9 - 7 = ", answer: "-16", imageUrl: "" },
+
+              { question: "- 9 - 6 = ", answer: "-15", imageUrl: "" },
+
+              { question: "- 9 - 5 = ", answer: "-14", imageUrl: "" },
+
+              { question: "What is the prime factorization of 20? <br><br> a. 4 x 5 <br>b. 2 x 10 <br>c. 2 x 2 x 5 <br>Type in letter choice", answer: "c", imageUrl: "" },
+
+              { question: "What expression is equivalent to 3(5x - 2)<br>a. 15x - 2<br>b. 15x + 6<br>c. 15x - 6", answer: "c", imageUrl: "" },
+
+
+
+
+
+                //one step equation with fraction coefficients
+              { question: "What is the value of h", answer: "18", imageUrl: "https://slideplayer.com/16610066/96/images/slide_4.jpg" },
+
+
+              //MA.6.AR.3.1 Ratios
+             { question: "A garden has 4 tulips and 3 daisies. What is the ratio of daises to all flowers in the garden? Enter your answer as a fraction.", answer: "3/7", imageUrl: "" },
+
+
+             //MA.6.AR.3.2 Unit Rate
+              { question: "Tom drove 300 miles in 6 hours. What is the unit rate in miles per hour? ____ miles per hour", answer: "50", imageUrl: "" },
+
+            // Add more questions here...
+        ];
+
+        let currentLevel = 1;
+        let startTime;
+        const timeLimit = 10 * 1000; // 10 seconds
+        const dailyLimit = 2 * 60 * 1000; // 2 minutes
+        let timeSpentToday = 0;
+        const levelDisplay = document.getElementById('currentLevel');
+        const questionImage = document.getElementById('questionImage');
+        const questionText = document.getElementById('questionText');
+        const answerInput = document.getElementById('answerInput');
+
+        function startLevel(level) {
+            startTime = new Date();
+            levelDisplay.textContent = level;
+            currentLevel = level;
+            loadQuestionsForLevel(level);
+        }
+
+        function loadQuestionsForLevel(level) {
+            // Randomize and display questions for the current level
+            // Code to implement randomization and display logic goes here
+            displayQuestion(level - 1);
+        }
+
+        function displayQuestion(index) {
+            if (index < questions.length) {
+                questionImage.src = questions[index].imageUrl;
+                questionText.innerHTML = questions[index].question;
+                answerInput.value = '';
+            }
+        }
+
+        function checkAnswer() {
+            // Check if the answer is correct, and move to the next question or level
+            // Code to implement answer checking and progression logic goes here
+            if (answerInput.value === questions[currentLevel - 1].answer) {
+                if (currentLevel % 10 === 0) {
+                    alert("Congratulations. You have mastered this level.");
+                    startLevel(currentLevel + 1);
+                } else {
+                    displayQuestion(currentLevel++);
+                }
+            }
+        }
+
+        answerInput.addEventListener('input', () => {
+            checkAnswer();
+        });
+
+        // Check for daily time limit
+        setInterval(() => {
+            const now = new Date();
+            if (now - startTime > timeLimit) {
+                alert("Time's up!");
+                location.reload();
+            }
+
+            timeSpentToday += now - startTime;
+            if (timeSpentToday > dailyLimit) {
+                alert("You've reached your daily limit. Please come back tomorrow.");
+                location.reload();
+            }
+            startTime = now;
+        }, 1000);
+
+        // Start the drill
+        startLevel(1);
+    </script>
+</body>
+</html>
