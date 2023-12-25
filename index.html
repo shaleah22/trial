@@ -1,4 +1,3 @@
-//Dec 24 Best Code
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,49 +6,244 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive Drill</title>
     <style>
-        body { font-family: Arial, sans-serif; }
-        #levelDisplay { position: absolute; right: 20px; top: 20px; }
-        #questionContainer { margin-top: 60px; }
-        #questionImage { max-width: 50%; height: auto;}
+        /* Existing styles */
+         body { 
+            font-family: Arial, sans-serif; 
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        #levelDisplay { 
+            position: absolute; 
+            right: 20px; 
+            top: 20px; 
+        }
+        #questionContainer { 
+            margin-top: 60px; 
+            padding: 10px;
+           
+        }
+
+
+        #questionText {
+        font-size: 20px; /* Change this value to increase or decrease the font size */
+    }
+        #questionImage { 
+            max-width: 50%; 
+            height: auto;
+            display: block;
+            margin:  ;
+        }
+        #nextQuestionButton {
+            width: 30%;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            text-align: center;
+        }
+        @media (max-width: 768px) {
+            #levelDisplay {
+                position: static;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+            #questionContainer {
+                margin-top: 30px;
+            }
+        }
+        /* ... */
+        #previousQuestionButton {
+            width: 30%;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #f44336; /* Red color for the previous button */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            text-align: center;
+        }
+        /* ... */
     </style>
 </head>
 <body>
     <div id="levelDisplay"></div>
+    <button id="previousQuestionButton">Previous Question</button>
+    <button id="nextQuestionButton">Next Question</button>
     <div id="externalLinkContainer"></div>
     <div id="questionContainer">
         <img id="questionImage" src="" alt="Question Image">
         <p id="questionText"></p>
-        <input type="text" id="answerInput" autofocus>
     </div>
     <div id="reelContainer" style="display: none;"></div>
     <div id="mapContainer"></div>
 
-    
-    
-
-
     <script>
         const questions = [
+        
 
-             { question: "Switzerland Map", answer: "1", imageUrl: "https://live.staticflickr.com/65535/53410109790_7668ae9e1a_z.jpg" },
+       
 
-            { question: "1 eggs, cheese, bacon PASSO SELLO",
+             { question: "June 13 on drive to Ortesei Lake Garda Bike Path If Time. 06/13/24 probably not enough time east side of Lake Garda Bike Path. Instagram says its only 2 km long, the cool part <br><br> Google Maps - Tagliata del Ponale Str. del Ponale, 38066 Riva del Garda TN, Italy",
               answer: "1",
-              imageUrl: "https://live.staticflickr.com/65535/53402944781_f70d0b3f03_w.jpg",
+              imageUrl: "https://i0.wp.com/outsidethissmalltown.com/wp-content/uploads/2018/07/bikepath-outsidethissmalltown-19.jpg?fit=5719%2C3218&ssl=1",
+
+            
+              externalLink: '<a href="https://www.tourissimo.travel/blog/the-lake-garda-bike-path" target="_blank">info </a>',
+              instagramReel: '<iframe src="https://www.instagram.com/reel/Cw8MHIBsFkE/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',
+              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d57041.8166519074!2d10.791127270869554!3d45.875105163707225!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47821770637e6879%3A0x2cd03e54e91a0c19!2sTagliata%20del%20Ponale!5e0!3m2!1sen!2sus!4v1703369681205!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+
+            },
+         
+
+           
+
+           
+
+             { question: "June 13 to June 17 Four nights at Casa Al Sole in Orteisei about a four hour drive from Milan. <br> <br> Search for Casa Al Sole, Streda Scurcià, 2, 39046 Ortisei BZ, Italy in Google Maps",
+              answer: "1",
+              imageUrl: "",
+              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10970.109741701597!2d11.6704062!3d46.5768097!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x477812f86357c751%3A0x5798ce88fac92c49!2sCasa%20al%20Sole!5e0!3m2!1sen!2sus!4v1703356397335!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+
+            },
+
+              { question: "2.a Seceda in Ortesei. 06/14/24 - FRIDAY SECEDA One Day hike morning <br> Go up the gondola 39 euros and hike. <br>Google Maps  is Secede cable car,  Str. Val d'Anna, 10, 39046 Ortisei BZ, Italy, 06/14/24 - Seceda One Day hike. Go up the gondola and hike 39 euros round trip for cable car",
+              answer: "1",
+              imageUrl: "https://mominitaly.com/wp-content/uploads/2023/06/family-hiking-seceda-dolomites-italy-scaled.jpg",
+              externalLink: '<a href="https://www.google.com/maps/place/Seceda+Ridgeline/@46.601581,11.7341776,3a,75y,90t/data=!3m8!1e2!3m6!1sAF1QipP6ZmrIb-9xkhxdstJ2TxApgqaH9bwQDip76eHJ!2e10!3e12!6shttps:%2F%2Flh5.googleusercontent.com%2Fp%2FAF1QipP6ZmrIb-9xkhxdstJ2TxApgqaH9bwQDip76eHJ%3Dw114-h86-k-no!7i4000!8i3000!4m16!1m8!3m7!1s0x477813ee15dae6ab:0xfb0dc80bc6d0534f!2sSeceda!8m2!3d46.5980566!4d11.7241679!10e5!16s%2Fg%2F122n5qh0!3m6!1s0x4778138ebc9a62fb:0x71d97c157cd7bf25!8m2!3d46.601581!4d11.7341776!10e5!16s%2Fg%2F11rq14p8t_?entry=ttu" target="_blank">link name</a>',
+              instagramReel: '<iframe src="https://www.instagram.com/reel/CuVHFmOOOIW/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',
+              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10969.85259040574!2d11.6704552!3d46.5780808!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x477813eec152c1f5%3A0x914160245397a848!2sSecede%20cable%20car!5e0!3m2!1sen!2sus!4v1703356897594!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+
+            },
+
+            { question: "06/14/24 FRIDAY AFTERNOON? Alpe di Siusi Seiser Arm Mont Blanc Gondola afternoon - do this in the afternoon or the next day, gondola last at 5 pm, how do you get down any other way? <br> <br>  24 Euros up and down, takes about 15 minutes. <br> <br> Google Maps Search - Seilbahnen St.Ulrich - Seiser Alm, Via Setil, 9, 39046 Sankt Ulrich, Autonome Provinz Bozen - Südtirol, Italy ",
+              answer: "1",
+              imageUrl: "https://www.moonhoneytravel.com/wp-content/uploads/2021/01/moonhoneytravel-Alpe-di-Siusi-dolomites-2.jpg",
+              externalLink: '<a href="https://throneandvine.com/alpe-di-siusi-hiking-guide/" target="_blank">Info</a>',
+              instagramReel: '<iframe src="https://www.instagram.com/reel/CvIUNiwpPKb/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',
+              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3185.7159420167313!2d11.6699571!3d46.5702621!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x477812fe866cd589%3A0xe1265d95276689f8!2sSeilbahnen%20St.Ulrich%20-%20Seiser%20Alm!5e1!3m2!1sen!2sus!4v1703359851129!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+
+            },
+            
+                  { question: "06/15/23 Saturday Rent bike day think about it",
+              answer: "1",
+              imageUrl: "",
+              /*externalLink: '<a href="link" target="_blank">link name</a>',
+              instagramReel: '<iframe src="LINK/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',
+              map: */
+
+            },
+
+                   { question: "06/16/24 Sunday DRIVE Gardena Pass Dolemites from Orteisei to Cordova is 1 hour drive",
+              answer: "1",
+              instagramReel: '<iframe src="https://www.instagram.com/reel/Cw71zGzsu4z/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',
+              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10975.532360953397!2d11.809444!3d46.54999945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47781565cba253b9%3A0xcc38e293b7108587!2sGardena%20Pass!5e0!3m2!1sen!2sus!4v1702899108706!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+            },
+
+
+
+
+
+                   { question: "Panorama di Santa Maddalena, Unnamed Road 39040, 39030 Villnöß, Autonome Provinz Bozen - Südtirol, Italy ",
+              answer: "1",
+              imageUrl: "https://as1.ftcdn.net/v2/jpg/03/13/59/66/1000_F_313596624_SX6yifgEohV9pW45Z3O1YLL8h3DWwRlE.jpg",
+              externalLink: '<a href="https://www.moonhoneytravel.com/santa-maddalena-val-di-funes-panorama-trail/" target="_blank">Info</a>',
+              /*instagramReel: '<iframe src="LINK/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',*/
+              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2738.8945036818186!2d11.715617399999998!3d46.648598299999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x477811286b623237%3A0xfc2d7e9dfa64888a!2sPanorama%20di%20Santa%20Maddalena!5e0!3m2!1sen!2sus!4v1703499778697!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+
+            },
+
+                 { question: "06/16/23 SUNDAY - ADOLF MUNKEL TRAIL PARCHEGGIO MALGA ZANNES PARKING 8 EUROS FILLS UP FAST EASY THREE HOUR HIKE. ONE HOUR DRIVE FROM HOTEL VAL DI FUNES. <br> <br> Google Map Search Parcheggio Malga Zannes (1), Plattl, 7C, 39054 Renon BZ, Italy ",
+              answer: "1",
+              imageUrl: "https://images.squarespace-cdn.com/content/v1/6127310e067bcd08b5dc4a2b/1691282567622-TM21QICFE0CULMFHMES3/IMG_6262.jpg",
+              externalLink: '<a href="https://www.moonhoneytravel.com/hiking-adolf-munkel-trail-dolomites/" target="_blank">Adolf Munkel</a>',
+              instagramReel: '<iframe src="https://www.instagram.com/reel/ChK5CwCAtjC/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',
+              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d684.8918327217253!2d11.763032399999998!3d46.635309299999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x477816ce4cb6a251%3A0xfbe7614af956d7c3!2sParcheggio%20Malga%20Zannes%20(1)!5e0!3m2!1sen!2sus!4v1703363974162!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+
+            },
+
+
+
+              { question: " 06/17/24 MONDAY to Austria? Tre Cime di Lavaredo Hike Trailhead looks amazing, a toll road, make sure you have money for toilets, stunning and a must do, fasthest east of the dolomites, go early, brings you right to parking. 30 euros for parking. You can pay either in cash, or by credit card. <br> <br> Google Maps. Tre Cime di Lavaredo Hike Trailhead Unnamed Road, 32041, Auronzo di Cadore BL, Italy ",
+              answer: "1",
+              imageUrl: "https://s27363.pcdn.co/wp-content/uploads/2022/08/Tre-Cime-di-Lavaredo-Trailhead.jpg.optimal.jpg",
+              externalLink: '<a href="https://www.earthtrekkers.com/hiking-tre-cime-di-lavaredo-loop/" target="_blank">tre cime info</a>',
+              instagramReel: '<iframe src="https://www.instagram.com/reel/Cyi7YoHN_ye/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',
+              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d685.1798568001981!2d12.295384!3d46.6125475!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4779cd9cf210c5e5%3A0xf7a18c2d0b8921b0!2sTre%20Cime%20di%20Lavaredo%20Hike%20Trailhead!5e0!3m2!1sen!2sus!4v1703441230390!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+
+            },
+
+           /*
+
+             { question: " ",
+              answer: "1",
+              imageUrl: "",
+              externalLink: '<a href="link" target="_blank">link name</a>',
+              instagramReel: '<iframe src="LINK/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',
+              map: 
+
+            },
+            */
+
+             //Italy
+
+
+
+
+
+             { question: " Forcella Del Sassolungo, Langkofel is right by too - Needs research",
+              answer: "1",
+              imageUrl: "https://t3.ftcdn.net/jpg/04/41/04/54/360_F_441045466_GcOxcs5AyDB9z7XkEhXa1IMtuaCpqXws.jpg",
+              /*externalLink: '<a href="link" target="_blank">link name</a>',*/
+              instagramReel: '<iframe src="https://www.instagram.com/reel/CxlAH6gIVW4/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',
+              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15713.77881898737!2d11.749095275483658!3d46.50961264460243!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47786b3d1e50a9b1%3A0x598083c46e4db908!2sForcella%20del%20Sassolungo!5e0!3m2!1sen!2sus!4v1703499266808!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+
+            },
+
+
+               { question: " Langkofel is right by Forcella del Sassolungo - Needs research",
+              answer: "1",
+              imageUrl: "https://www.val-gardena.com/fileadmin/_processed_/7/c/csm_langkofel-plattkofel_1714d52f50.jpg",
+              /*externalLink: '<a href="link" target="_blank">link name</a>',
+              instagramReel: '<iframe src="https://www.instagram.com/reel/CxlAH6gIVW4/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',*/
+              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d87926.05924744612!2d11.7329446!3d46.4746609!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47786b67e36a3707%3A0x5457d9113487244a!2sLangkofel!5e0!3m2!1sen!2sus!4v1703500785034!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+
+            },
+
+
+
+            
+
+
+            
+            { question: "Cime Gran Cir ",
+              answer: "1",
+              imageUrl: "https://www.moonhoneytravel.com/wp-content/uploads/2021/07/moonhoneytravel-Gran-Cir-Dolomites-27-1024x682.jpg",
+              /*
+              externalLink: '<a href="link" target="_blank">link name</a>',
+              instagramReel: '<iframe src="LINK/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',*/
+              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2743.4379915981594!2d11.806241400000001!3d46.5588033!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x477815dd0a7b6f03%3A0x53d30b9978b3c497!2sGran%20Cir!5e0!3m2!1sen!2sus!4v1703445953738!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+            },
+
+            
+
+          
+
+            { question: "1 PASSO SELLO",
+              answer: "1",
+              imageUrl: "",
               externalLink: '<a href="https://wanderyourway.com/passo-gardena-one-of-the-most-beautiful-drives-in-italy/" target="_blank">Link Text Here</a>',
               instagramReel: '<iframe src="https://www.instagram.com/reel/Cxa2aBEtJgI/embed" width="400" height="480" frameborder="0" allowtransparency="true" autoplay="true"></iframe>',
               map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10983.784975860091!2d11.7582768!3d46.50917445!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47786ae834380c45%3A0x1d0709882e83eb90!2sSella%20Pass!5e0!3m2!1sen!2sus!4v1702899696422!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
             },
 
-            { question: "2 Bisse de Torrent 1Neuf - Savièze, Valaisn",
-              answer: "1",
-              imageUrl: "https://previews.agefotostock.com/previewimage/medibigoff/e3dcb3f747a093d03c41d46c8e82db01/y5d-3847916.jpg",
-              externalLink: '<a href="https://www.google.com/maps/dir/Interlaken,+Switzerland/Bisse+du+Torrent+Neuf,+1965+Savi%C3%A8se,+Switzerland/@46.5088099,7.3568332,10z/data=!4m13!4m12!1m5!1m1!1s0x1453996a31921a05:0x9c111af14c02be00!2m2!1d7.8632049!2d46.6863481!1m5!1m1!1s0x478edd0bf97ac7a7:0x96cd0681f62b5258!2m2!1d7.3233587!2d46.2577788?entry=ttu" target="_blank">Map</a>',
-              instagramReel: '<iframe src="https://www.instagram.com/reel/CxqNVpKsyvA/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',
-              map: '<iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB29Em9jRs7sxUew_W38oGFYOsXR4For6A=Bisse%20de%20Torrent-Neuf%2C%20Savi%C3%A8se%2C%20Switzerland" allowfullscreen></iframe>',
-              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d11034.480571663093!2d7.3233587!3d46.2577788!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478edd0bf97ac7a7%3A0x96cd0681f62b5258!2sBisse%20du%20Torrent%20Neuf!5e0!3m2!1sen!2sus!4v1702899357946!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
 
-            },
 
             /*
             { question: "2.a ",
@@ -64,28 +258,280 @@
             */
 
             
-            { question: "2.a Seceda in Ortesei",
+
+
+
+            //Austria
+
+
+
+
+              { question: "Monday 6/17/24 to 6/18/24 Gosau. COOEE alpin Hotel Dachstein address: 484 Gosau, 4824 Gosau, Austria  ",
               answer: "1",
-              imageUrl: "https://mominitaly.com/wp-content/uploads/2023/06/family-hiking-seceda-dolomites-italy-scaled.jpg",
-              externalLink: '<a href="https://www.google.com/maps/place/Seceda+Ridgeline/@46.601581,11.7341776,3a,75y,90t/data=!3m8!1e2!3m6!1sAF1QipP6ZmrIb-9xkhxdstJ2TxApgqaH9bwQDip76eHJ!2e10!3e12!6shttps:%2F%2Flh5.googleusercontent.com%2Fp%2FAF1QipP6ZmrIb-9xkhxdstJ2TxApgqaH9bwQDip76eHJ%3Dw114-h86-k-no!7i4000!8i3000!4m16!1m8!3m7!1s0x477813ee15dae6ab:0xfb0dc80bc6d0534f!2sSeceda!8m2!3d46.5980566!4d11.7241679!10e5!16s%2Fg%2F122n5qh0!3m6!1s0x4778138ebc9a62fb:0x71d97c157cd7bf25!8m2!3d46.601581!4d11.7341776!10e5!16s%2Fg%2F11rq14p8t_?entry=ttu" target="_blank">link name</a>',
-              instagramReel: '<iframe src="https://www.instagram.com/reel/CuVHFmOOOIW/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',
-              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10965.810766281194!2d11.7241679!3d46.59805605!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x477813ee15dae6ab%3A0xfb0dc80bc6d0534f!2sSeceda!5e0!3m2!1sen!2sus!4v1702901547174!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+              imageUrl: "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/17/58/de/70/terrasse.jpg?w=700&h=-1&s=1",
+              /*externalLink: '<a href="link" target="_blank">link name</a>',
+              instagramReel: '<iframe src="LINK/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',
+              */
+              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10765.339191034982!2d13.5339891!3d47.5807297!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4776cab49fafe573%3A0x2641a9a5d8dcb259!2sCOOEE%20alpin%20Hotel%20Dachstein!5e0!3m2!1sen!2sus!4v1703503292837!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+
+            },
+
+            
+
+             { question: " 06/17/24 MONDAY drive from Italy to Austria, 170 miles -  grossglockner road, 43 EUROS can buy online. see link. LONG DRIVE DAY. REALLY NEED TO RETHINK THIS PART OF THE TRIP ",
+              answer: "1",
+              imageUrl: "https://www.salzburg.info/deskline/infrastruktur/objekte/grossglockner-hochalpenstrasse_9427/image-thumb__664655__slider-main/Grossglockner%20Hochalpenstrasse-Edelwei%C3%9F-Spitze_9431.jpg",
+              externalLink: '<a href="https://www.grossglockner.at/gg/en/pricesandopeninghours" target="_blank">BUY TICKETS HERE </a>',
+              /*instagramReel: '<iframe src="LINK/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',*/
+              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10867.210827651874!2d12.842778!3d47.08333244999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x477715a6c2f6e8f5%3A0xd2cd590e3196a135!2sGrossglockner%20High%20Alpine%20Road!5e0!3m2!1sen!2sus!4v1703444894148!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+
+            },
+            
+
+
+
+             { question: "06/17/24 maybe Hochosterwitz Castle, Hoho-ster-vitz, Launsdorf, Austria ",
+              answer: "1",
+              imageUrl: "https://farm5.staticflickr.com/4011/4550877402_8eb63bca38_c.jpg",
+              /*
+              externalLink: '<a href="link" target="_blank">link name</a>',
+              instagramReel: '<iframe src="LINK/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',*/
+              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10933.837013940563!2d14.4516882!3d46.7558434!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4770137013898889%3A0x7f712102bc6483c9!2sHochosterwitz%20Castle!5e0!3m2!1sen!2sus!4v1703446263530!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
 
             },
 
 
 
+
+
+             { question: "Sound of Music Trail Werfen ",
+              answer: "1",
+              imageUrl: "https://live.staticflickr.com/65535/53420194020_cf0e6d8b85_n.jpg",
+              /*externalLink: '<a href="link" target="_blank">link name</a>',
+              instagramReel: '<iframe src="LINK/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',*/
+              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2870.4392211402883!2d13.183376366896066!3d47.473484526718416!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4776db4c05260bdd%3A0xaae16bb32073281!2sThe%20Sound%20of%20Music%20Trail%20Werfen!5e0!3m2!1sen!2sus!4v1703501102861!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+
+            },
+
+
+             { question: "06/18 - 06/19 Hotel Schloss Leopoldskron Salzberg Jun 18-20, 2024, $410 ",
+              answer: "1",
+              imageUrl: "",
+              /*
+              externalLink: '<a href="link" target="_blank">link name</a>',
+              instagramReel: '<iframe src="LINK/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',
+              map: */
+
+            },
+
+
+
+
+            
+            { question: "06/19/24 WEDNESDAY Fortress Hohensalzburg, Salzburg ",
+              answer: "1",
+              imageUrl: "https://travel.usnews.com/images/hohensalzburg_fortress_plTt5yy.jpg",
+              /*
+              externalLink: '<a href="link" target="_blank">link name</a>',
+              instagramReel: '<iframe src="LINK/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',
+              */
+              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2680.3081632457315!2d13.0456989!3d47.7948618!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47769060272103bd%3A0x2b77bed3e9ec556b!2sFortress%20Hohensalzburg!5e0!3m2!1sen!2sus!4v1703501915722!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+
+            },
+
+            
+
+            
+            
+            { question: "6/19/24 WEDNESDAY Mirabell Palace, Schloss Mirabell",
+              answer: "1",
+              imageUrl: "https://hellojetlag.com/wp-content/uploads/2016/10/IMG_4712.jpg",
+              /*
+              externalLink: '<a href="link" target="_blank">link name</a>',
+              instagramReel: '<iframe src="LINK/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',
+              */
+              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2679.7623069351453!2d13.041694200000002!3d47.805443200000006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4776907b3f5deb2b%3A0x2cd5d91166d5dd55!2sMirabell%20Palace!5e0!3m2!1sen!2sus!4v1703502012272!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+
+            },
+
+            
+
+            
+          
+                //appenzell
+
+              { question: "Switzerland APPENZELL", answer: "1", imageUrl: "https://live.staticflickr.com/65535/53410109790_7668ae9e1a_z.jpg" },
+
+
+                  
+            { question: "Thursday 6/20/24 to Saturday 6/22/24 Waldgasthaus Lehmen. Address: Triebernstrasse 72, 9057 Weissbad, Switzerland ",
+              answer: "1",
+              imageUrl: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/225041225.jpg?k=49c50c5c6e061fe8cb0420f282891f3129ff8bd2302ae0a4f401dc6e5e8272ca&o=&hp=1",
+              /*
+              externalLink: '<a href="link" target="_blank">link name</a>',
+              instagramReel: '<iframe src="LINK/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',
+              */
+              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10824.281381001485!2d9.3928195!3d47.2934249!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x479b27d6ee626faf%3A0x3f0f15d1ad4a2ff2!2sWaldgasthaus%20Lehmen!5e0!3m2!1sen!2sus!4v1703502837027!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+
+            },
+
+            
+
+
+             //saxer lucke
+
+              { question: "18 Saxer Lucke Appenzell Parking Small potentially frustrating buy ticket from english german machine 36 for straubahn gondola", answer: "1", imageUrl: "https://theportuguesetraveler.com/wp-content/uploads/2022/01/the-saxer-lucke-at-sunset.jpg"  },
+
+
+
+            { question: "Saxer Lucke Photo #2", answer: "1", imageUrl: "https://www.journeyera.com/wp-content/uploads/2019/10/saxer-lucke-hike-hoher-kasten-05554.jpg" },
+
+             { question: '24 Frumsem Luftseibahn Staubern for Saxer Lucke  <a href="https://www.google.ch/maps/place/Fr%C3%BCmsen,+Luftseilbahn+Staubern/@47.2443611,9.4631503,2271m/data=!3m1!1e3!4m15!1m8!3m7!1s0x479b252e4863ac73:0x935ab6c681f63560!2sFr%C3%BCmsen,+9467+Sennwald,+Switzerland!3b1!8m2!3d47.24509!4d9.47345!16s%2Fg%2F1233dvnxy!3m5!1s0x479b25d0d11698ef:0xda35d23fa891fb38!8m2!3d47.2476748!4d9.4705109!16s%2Fg%2F11h_10vwhm?entry=ttu" target="_blank">Frumsem</a>"', answer: "1", imageUrl: "https://live.staticflickr.com/65535/53403288644_b9f6296239_c.jpg" },
+            
+
+
+
+
+
+
+
+
+
+            { question: "19 schafler ridge in appenzell area find wasserauen and the ______bahn. (ebenalp?)", answer: "1", imageUrl: "https://www.journeyera.com/wp-content/uploads/2020/05/interlaken-hiking-guide-hikes-near-interlaken-04228-1024x682.jpg" },
+            
+
+           
    
             { question: "2.b Hoher Kasten Switzerland Appenzell",
               answer: "1",
-              imageUrl: "https://www.thefamilyof5.com/post/hoher-kasten-top-of-appenzell-ai-swiss-tour-2020",
+              imageUrl: "https://static.wixstatic.com/media/0c7413_49986e99df664fe0a22e1a2204a76cc8~mv2.jpg/v1/fill/w_1000,h_537,al_c,q_85,usm_0.66_1.00_0.01/0c7413_49986e99df664fe0a22e1a2204a76cc8~mv2.jpg",
               externalLink: '<a href="link" target="_blank">dead link</a>',
               instagramReel: '<iframe src="https://www.instagram.com/reel/CxLsUu0sb7k/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',
               map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30405.615188799788!2d9.465402100365148!3d47.290989665622085!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x479b24afb641d585%3A0x6da317254da55368!2sHoher%20Kasten!5e0!3m2!1sen!2sus!4v1702982068936!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
 
             },
 
+
+
+
+            { question: "13  Flumserberg Alpine Flora Trail near Appenzell. Tannenboden gondola lift 10 chf roundtrip. This trail is accessed from the Tannenboden-Maschgenkamm gondola. Southeast Switzerland.   " , answer: "1", externalLink: '<a href="https://swissfamilyfun.com/flumserberg-flower-trail/" target="_blank">Swiss Family Fun Info</a>', imageUrl: "https://swissfamilyfun.com/wp-content/uploads/2006/09/flumserberg-flower-trail-cloudy.jpg" , map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d173752.34149682036!2d9.13817267599118!3d47.121016567861446!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x479b2b361c10e319%3A0x4af1123a0d96917c!2sParking%20Flumserberg%20Tannenboden!5e0!3m2!1sen!2sus!4v1703063921914!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'},
+
+
+
+           
             
+          
+
+
+
+
+
+
+
+            //Stoos and Rigi
+
+
+              
+            { question: "Stoos Lodge 6/22/24 to 6/24/24 ",
+              answer: "1",
+              imageUrl: "https://cf.bstatic.com/xdata/images/hotel/max1024x768/414320617.jpg?k=5846c7ef46cc5c54cbef72cc6c872292ab13bc3fe7cd9b38e8b4d0c5f80af64d&o=&hp=1",
+              /*
+              externalLink: '<a href="link" target="_blank">link name</a>',
+              instagramReel: '<iframe src="LINK/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',
+              */
+              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10888.711703980764!2d8.6670374!3d46.9778398!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47854ff33dce7d45%3A0xda0174964f44d069!2sStoos%20Lodge!5e0!3m2!1sen!2sus!4v1703502666900!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'
+
+            },
+
+            
+             { question: '4 stoos <a href="https://www.stoos.ch/en/pages/parkticket" target="_blank">https://www.stoos.ch</a>', answer: "1", imageUrl: "https://www.leisureopportunities.co.uk/images/HIGH23908_307300.jpg" },
+
+
+
+
+              //grosser mythen
+              
+
+                { question: "16  where do you park and get the gondola for grosser mythen? Parkplatz Brunni", answer: "1" , imageUrl: "https://flyingcdn-44f099d7.b-cdn.net/wp-content/uploads/2022/05/Kleiner-Mythen-hike-2-1024x682.jpg", map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10875.554406616333!2d8.7032083!3d47.0424167!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47854d0099547755%3A0xd4804c39b3e2e198!2sParkplatz%20Brunni!5e0!3m2!1sen!2sus!4v1703068327599!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' },    
+
+                 { question: "22 Parkplatz Brunni for Grosser Mythen. Can pay online 1 CHF per hour for parking", answer: "1", imageUrl: "https://live.staticflickr.com/65535/53402951701_85ed66fbd6_c.jpg" },
+            
+
+
+
+                //rigi
+
+            { question: "17  parking for Rigi Panorama Trail ____strasse44", answer: "1", imageUrl: "https://www.homeschwiizhome.com/wp-content/uploads/2017/08/IMG_3778-1-1030x773.jpg" },
+
+
+
+             { question: '14  ___ kulm (hill)  tickets for cogway train about 50 chf round trip with no discount goldau to rigi klum can buy online <a href="https://www.rigi.ch/en/experience/rigi-mountain-railways/cogwheel-train-goldau-rigi-kulm" target="_blank">https://www.rigi.ch/en/experience/rigi-mountain-railways/cogwheel-train-goldau-rigi-kulm</a>"', answer: "1", imageUrl: "https://swissfamilyfun.com/wp-content/uploads/2021/09/rigi-panorama-google-earth-labeled.jpg", instagramReel: '<iframe src="https://www.instagram.com/reel/CxOQck3tgfY/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>', map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2719.042210416905!2d8.530575260308293!3d47.03940252069615!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478557e2f2df2d23%3A0xed7633deb39d8efd!2sParkplatz%20Kr%C3%A4bel!5e0!3m2!1sen!2sus!4v1702983337018!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'},
+            
+
+
+           
+
+
+
+            //Brienz
+
+            
+            
+            { question: "7 Furka Pass Near Grimselpass Overlook", answer: "1", imageUrl: "https://static.wixstatic.com/media/a65833_5ccf1a335b2a4ce78592c3cff4a3622e~mv2.jpg/v1/fill/w_1428,h_1086,al_c/a65833_5ccf1a335b2a4ce78592c3cff4a3622e~mv2.jpg", map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10970.999998607514!2d8.4148637!3d46.57240895!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47857938f20195e9%3A0x4ec4487edce90c12!2sFurka%20Pass!5e0!3m2!1sen!2sus!4v1702898948413!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',  },
+            
+            
+            { question: "10  Brienzer Rothorn Ridge Trail Parking Parkplatz der Rothorn-Bahn. Northeast side of Brienzersee Lake near Brienz ", answer: "1", imageUrl: "https://swissfamilyfun.com/wp-content/uploads/2018/06/brienzerrothorn-trail04.jpg" ,  
+              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1516.4932599505394!2d8.035625047543718!3d46.75542468507287!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478f97538f539f05%3A0x4b4e923fa867960b!2sParkplatz%20der%20Rothorn-Bahn!5e0!3m2!1sen!2sus!4v1702978314488!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'},
+
+            { question: "11  Parking Parkplatz der Rothorn-Bahn for Rothorn Ridge Trail", answer: "1", imageUrl: "https://swissfamilyfun.com/wp-content/uploads/2018/06/brienzrothorn-parking-map.jpg", map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10934.004183167834!2d8.0364752!3d46.7550195!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478f97538f539f05%3A0x4b4e923fa867960b!2sParkplatz%20der%20Rothorn-Bahn!5e0!3m2!1sen!2sus!4v1703064595080!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' },
+
+            { question: "12 The _____ gorge is twelve chf and the Parkplatz Aareschlucht West Free Parking Lot. 15 MINUTES SOUTHEAST OF BRIENZ" , answer: "1", imageUrl: "https://portfolio.photoseek.com/img-get/I0000_iQ65cQDP7g/s/1200/I0000_iQ65cQDP7g.jpg", map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10941.053544464688!2d8.2030364!3d46.7202663!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478f8f8a2c9307c1%3A0x2b0f97925ba9c8d!2sParkplatz%20Aareschlucht%20West!5e0!3m2!1sen!2sus!4v1702978715425!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' },
+
+            
+
+             { question: '57 Aare Gorge Aareschlucht <a href="https://www.instagram.com/reel/CuJi6KdN7FQ"target="_blank">Instagram</a>', answer: "1", imageUrl: "https://media.myswitzerland.com/image/fetch/c_lfill,g_auto,w_3200,h_1800/f_auto,q_80,fl_keep_iptc/https://www.myswitzerland.com/-/media/st/gadmin/images/partner/di_renzo_aareschlucht_steg_36164.jpg" },
+
+
+          
+            
+            
+            { question: '12.B Gelmerbahn 36 chf for the cogway train parkplatz nearby is free.  This place is 37 minutes southeast of __________ <a href="https://besucherdienst.kwo.ch/path/app/?rq_AppGuid=8D22CAF932CD8A2075581101B4CB4052EB467914&rq_TargetPageGuid=5A0DA71A66CD9B0335F5D277BD1F03DB01B2E45A&qs_link=53D2B4BEA34BC0DEA00CB096D49DC6F0B7461BEF&qs_mode=new&qs_page=5A0DA71A66CD9B0335F5D277BD1F03DB01B2E45A&qs_reload=5A0DA71A66CD9B0335F5D277BD1F03DB01B2E45A&qs_rq_inetItemPk=enE9824F398C9CDEDED9D00CC91BE5500F8832082A" target="_blank">Gelmerbahn</a>"' , answer: "1", imageUrl: "https://travelmusefamily.com/wp-content/uploads/2016/01/FD847E4B-AACD-4CAE-AF69-857555673F1D.jpeg", instagramReel: '<iframe src="https://www.instagram.com/reel/Cw71zGzsu4z/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>' },
+            
+            { question: "12.C ______ OVERLOOK. CLOSE TO GELMERBAHN IF ROAD IS OPEN. ONE HOUR SOUTHEAST OF BRIENZ IF ROAD OPEN" , answer: "1", imageUrl: "https://www.cycling-challenge.com/wp-content/uploads/2010/09/4977262382_19cb078533_b.jpg" },
+            
+
+
+
+
+
+            
+
+            //Interlaken and Grindelwald
+
+
+           
+
+
+
+            { question: "6/24/24 -  Hotel Berghof Amaranth, next to Interlaken. 30 minutes west of Grindelwald June 24 to 25", answer: "1", imageUrl: "https://media-cdn.tripadvisor.com/media/photo-s/19/2e/ba/f8/hotel-berghof-amaranth.jpg" , map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10952.301534803184!2d7.8565607!3d46.6647728!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478fa478fffa799b%3A0x8b775d5e8e88801b!2sHotel%20Berghof%20Amaranth!5e0!3m2!1sen!2sus!4v1702899442623!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',},
+
+
+
+
+
+            { question: "2 Bisse de Torrent 1Neuf - Savièze, Valaisn",
+              answer: "1",
+              imageUrl: "https://previews.agefotostock.com/previewimage/medibigoff/e3dcb3f747a093d03c41d46c8e82db01/y5d-3847916.jpg",
+              externalLink: '<a href="https://www.google.com/maps/dir/Interlaken,+Switzerland/Bisse+du+Torrent+Neuf,+1965+Savi%C3%A8se,+Switzerland/@46.5088099,7.3568332,10z/data=!4m13!4m12!1m5!1m1!1s0x1453996a31921a05:0x9c111af14c02be00!2m2!1d7.8632049!2d46.6863481!1m5!1m1!1s0x478edd0bf97ac7a7:0x96cd0681f62b5258!2m2!1d7.3233587!2d46.2577788?entry=ttu" target="_blank">Map</a>',
+              instagramReel: '<iframe src="https://www.instagram.com/reel/CxqNVpKsyvA/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',
+              map: '<iframe width="600" height="450" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB29Em9jRs7sxUew_W38oGFYOsXR4For6A=Bisse%20de%20Torrent-Neuf%2C%20Savi%C3%A8se%2C%20Switzerland" allowfullscreen></iframe>',
+              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d11034.480571663093!2d7.3233587!3d46.2577788!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478edd0bf97ac7a7%3A0x96cd0681f62b5258!2sBisse%20du%20Torrent%20Neuf!5e0!3m2!1sen!2sus!4v1702899357946!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
+
+            },
+
+
+
+
 
 
             { question: "2.c GLACIER CANYON GRINDELWALD ",
@@ -109,11 +555,9 @@
             
             
 
-            { question: '4 stoos <a href="https://www.stoos.ch/en/pages/parkticket" target="_blank">https://www.stoos.ch</a>', answer: "1", imageUrl: "https://www.leisureopportunities.co.uk/images/HIGH23908_307300.jpg" },
+           
 
 
-            { question: '5 Crumble up feta cheese. Make a beef ball. Roll it in pepper. Crust it with feta all the way around. Smash with parchment paper  <a href="https://www.instagram.com/reel/Cw8F13wLlyc/?igshid=MzRlODBiNWFlZA==" target="_blank">https://www.instagram.com/reel/Cw8F13wLlyc/?igshid=MzRlODBiNWFlZA==</a> "', answer: "1", imageUrl: "https://live.staticflickr.com/65535/53403104976_b194a0260f_w.jpg", instagramReel: '<iframe src="https://www.instagram.com/reel/Cw8F13wLlyc/embed" width="400" height="480" frameborder="0" allowtransparency="true" autoplay="true"></iframe>', },
-            { question: "5.B Hotel Berghof Amaranth, next to Interlaken. 30 minutes west of Grindelwald June 24 to 25", answer: "1", imageUrl: "https://media-cdn.tripadvisor.com/media/photo-s/19/2e/ba/f8/hotel-berghof-amaranth.jpg" , map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10952.301534803184!2d7.8565607!3d46.6647728!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478fa478fffa799b%3A0x8b775d5e8e88801b!2sHotel%20Berghof%20Amaranth!5e0!3m2!1sen!2sus!4v1702899442623!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',},
 
              
             { question: "5.c Oeschinensee Need more info  ",
@@ -125,241 +569,91 @@
 
             },
 
+
+         
+
+             { question: '21 Mannlichen to Kleine Scheidegg, start in Mannlichen as it is a downhill hike that way. Get a cable car in Grindelwald 32 chf <a href="https://www.interlaken.ch/shop/toi_en/tickets/bergbahn/angebote/maennlichen" target="_blank">Mannlichen</a>"', answer: "1", imageUrl: "https://s27363.pcdn.co/wp-content/uploads/2020/05/Mannlichen-Hike-Switzerland.jpg.optimal.jpg", instagramReel: '<iframe src="https://www.instagram.com/reel/CwnWiW3MnRO/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>', map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d21923.489689444854!2d7.938064700000001!3d46.618143749999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478f9f36c54cad91%3A0x5f3614ab836416fd!2sStart%20Panoramaweg%20%22M%C3%A4nnlichen%20zur%20Kleinen%20Scheidegg%22!5e0!3m2!1sen!2sus!4v1702984645295!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'},
             
-
-             { question: "6 Gardena Pass",
-              answer: "1",
-              instagramReel: '<iframe src="https://www.instagram.com/reel/Cw71zGzsu4z/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>',
-              map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10975.532360953397!2d11.809444!3d46.54999945!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47781565cba253b9%3A0xcc38e293b7108587!2sGardena%20Pass!5e0!3m2!1sen!2sus!4v1702899108706!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
-            },
-
-            { question: "7 Furka Pass Near Grimselpass Overlook", answer: "1", imageUrl: "https://static.wixstatic.com/media/a65833_5ccf1a335b2a4ce78592c3cff4a3622e~mv2.jpg/v1/fill/w_1428,h_1086,al_c/a65833_5ccf1a335b2a4ce78592c3cff4a3622e~mv2.jpg", map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10970.999998607514!2d8.4148637!3d46.57240895!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47857938f20195e9%3A0x4ec4487edce90c12!2sFurka%20Pass!5e0!3m2!1sen!2sus!4v1702898948413!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',  },
-            { question: "8 Holiday Inn Express Milan-Malpensa right by airport", answer: "1", imageUrl: "https://live.staticflickr.com/65535/53402944771_f7ae972ea8_w.jpg", map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d11158.164354885914!2d8.712441!3d45.6399546!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47866165d1517d89%3A0xa1510da0f7510d66!2sHoliday%20Inn%20Express%20Milan%20-%20Malpensa%20Airport%2C%20an%20IHG%20Hotel!5e0!3m2!1sen!2sus!4v1702978530211!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' },
-            { question: "9  What is the prime factorization of 30", answer: "1", imageUrl: "https://images.saymedia-content.com/.image/t_share/MTg0MjExNTc3ODk1OTIxNTM5/how-to-write-a-number-as-a-product-of-its-prime-factors.jpg" },
-            { question: "10  Brienzer Rothorn Ridge Trail Parking Parkplatz der Rothorn-Bahn. Northeast side of Brienzersee Lake near Brienz ", answer: "1", imageUrl: "https://swissfamilyfun.com/wp-content/uploads/2018/06/brienzerrothorn-trail04.jpg" , map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1516.4932599505394!2d8.035625047543718!3d46.75542468507287!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478f97538f539f05%3A0x4b4e923fa867960b!2sParkplatz%20der%20Rothorn-Bahn!5e0!3m2!1sen!2sus!4v1702978314488!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'},
-
-            { question: "11  Parking Parkplatz der Rothorn-Bahn for Rothorn Ridge Trail", answer: "1", imageUrl: "https://swissfamilyfun.com/wp-content/uploads/2018/06/brienzrothorn-parking-map.jpg", map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10934.004183167834!2d8.0364752!3d46.7550195!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478f97538f539f05%3A0x4b4e923fa867960b!2sParkplatz%20der%20Rothorn-Bahn!5e0!3m2!1sen!2sus!4v1703064595080!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' },
-
-            { question: "12 The _____ gorge is twelve chf and the Parkplatz Aareschlucht West Free Parking Lot. 15 MINUTES SOUTHEAST OF BRIENZ" , answer: "1", imageUrl: "https://portfolio.photoseek.com/img-get/I0000_iQ65cQDP7g/s/1200/I0000_iQ65cQDP7g.jpg", map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10941.053544464688!2d8.2030364!3d46.7202663!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478f8f8a2c9307c1%3A0x2b0f97925ba9c8d!2sParkplatz%20Aareschlucht%20West!5e0!3m2!1sen!2sus!4v1702978715425!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' },
-            { question: '12.B Gelmerbahn 36 chf for the cogway train parkplatz nearby is free.  This place is 37 minutes southeast of __________ <a href="https://besucherdienst.kwo.ch/path/app/?rq_AppGuid=8D22CAF932CD8A2075581101B4CB4052EB467914&rq_TargetPageGuid=5A0DA71A66CD9B0335F5D277BD1F03DB01B2E45A&qs_link=53D2B4BEA34BC0DEA00CB096D49DC6F0B7461BEF&qs_mode=new&qs_page=5A0DA71A66CD9B0335F5D277BD1F03DB01B2E45A&qs_reload=5A0DA71A66CD9B0335F5D277BD1F03DB01B2E45A&qs_rq_inetItemPk=enE9824F398C9CDEDED9D00CC91BE5500F8832082A" target="_blank">Gelmerbahn</a>"' , answer: "1", imageUrl: "https://travelmusefamily.com/wp-content/uploads/2016/01/FD847E4B-AACD-4CAE-AF69-857555673F1D.jpeg", instagramReel: '<iframe src="https://www.instagram.com/reel/Cw71zGzsu4z/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>' },
-            
-            { question: "12.C ______ OVERLOOK. CLOSE TO GELMERBAHN IF ROAD IS OPEN. ONE HOUR SOUTHEAST OF BRIENZ IF ROAD OPEN" , answer: "1", imageUrl: "https://www.cycling-challenge.com/wp-content/uploads/2010/09/4977262382_19cb078533_b.jpg" },
-            
-            { question: "13  Flumserberg Alpine Flora Trail near Appenzell. Tannenboden gondola lift 10 chf roundtrip. This trail is accessed from the Tannenboden-Maschgenkamm gondola. Southeast Switzerland.   " , answer: "1", externalLink: '<a href="https://swissfamilyfun.com/flumserberg-flower-trail/" target="_blank">Swiss Family Fun Info</a>', imageUrl: "https://swissfamilyfun.com/wp-content/uploads/2006/09/flumserberg-flower-trail-cloudy.jpg" , map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d173752.34149682036!2d9.13817267599118!3d47.121016567861446!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x479b2b361c10e319%3A0x4af1123a0d96917c!2sParking%20Flumserberg%20Tannenboden!5e0!3m2!1sen!2sus!4v1703063921914!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'},
-            { question: '14  ___ kulm (hill)  tickets for cogway train about 50 chf round trip with no discount goldau to rigi klum can buy online <a href="https://www.rigi.ch/en/experience/rigi-mountain-railways/cogwheel-train-goldau-rigi-kulm" target="_blank">https://www.rigi.ch/en/experience/rigi-mountain-railways/cogwheel-train-goldau-rigi-kulm</a>"', answer: "1", imageUrl: "https://swissfamilyfun.com/wp-content/uploads/2021/09/rigi-panorama-google-earth-labeled.jpg", instagramReel: '<iframe src="https://www.instagram.com/reel/CxOQck3tgfY/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>', map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2719.042210416905!2d8.530575260308293!3d47.03940252069615!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478557e2f2df2d23%3A0xed7633deb39d8efd!2sParkplatz%20Kr%C3%A4bel!5e0!3m2!1sen!2sus!4v1702983337018!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'},
-            { question: "15 what is the answer to life, the universe, and everything?", answer: "1", imageUrl: "https://upload.wikimedia.org/wikipedia/commons/c/c0/Douglas_adams_portrait_cropped.jpg" },
-            { question: "16  where do you park and get the gondola for grosser mythen? Parkplatz Brunni", answer: "1" , imageUrl: "https://flyingcdn-44f099d7.b-cdn.net/wp-content/uploads/2022/05/Kleiner-Mythen-hike-2-1024x682.jpg", map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10875.554406616333!2d8.7032083!3d47.0424167!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47854d0099547755%3A0xd4804c39b3e2e198!2sParkplatz%20Brunni!5e0!3m2!1sen!2sus!4v1703068327599!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' },    
-            { question: "17  parking for Rigi Panorama Trail ____strasse44", answer: "1", imageUrl: "https://www.homeschwiizhome.com/wp-content/uploads/2017/08/IMG_3778-1-1030x773.jpg" },
-            { question: "18 Saxer Lucke Appenzell Parking Small potentially frustrating buy ticket from english german machine 36 for straubahn gondola", answer: "1", imageUrl: "https://theportuguesetraveler.com/wp-content/uploads/2022/01/the-saxer-lucke-at-sunset.jpg"  },
-            { question: "19 schafler ridge in appenzell area find wasserauen and the ______bahn", answer: "1", imageUrl: "https://www.journeyera.com/wp-content/uploads/2020/05/interlaken-hiking-guide-hikes-near-interlaken-04228-1024x682.jpg" },
-            { question: "20 What is the name of this location?", answer: "1", imageUrl: "https://www.journeyera.com/wp-content/uploads/2019/10/saxer-lucke-hike-hoher-kasten-05554.jpg" },
-            { question: '21 Mannlichen to Kleine Scheidegg, start in Mannlichen as it is a downhill hike that way. Get a cable car in Grindelwald 32 chf <a href="https://www.interlaken.ch/shop/toi_en/tickets/bergbahn/angebote/maennlichen" target="_blank">Mannlichen</a>"', answer: "1", imageUrl: "https://s27363.pcdn.co/wp-content/uploads/2020/05/Mannlichen-Hike-Switzerland.jpg.optimal.jpg", instagramReel: '<iframe src="https://www.instagram.com/reel/CwnWiW3MnRO/" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>', map: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d21923.489689444854!2d7.938064700000001!3d46.618143749999994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478f9f36c54cad91%3A0x5f3614ab836416fd!2sStart%20Panoramaweg%20%22M%C3%A4nnlichen%20zur%20Kleinen%20Scheidegg%22!5e0!3m2!1sen!2sus!4v1702984645295!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>'},
-            { question: "22 Parkplatz Brunni for Grosser Mythen. Can pay online 1 CHF per hour for parking", answer: "1", imageUrl: "https://live.staticflickr.com/65535/53402951701_85ed66fbd6_c.jpg" },
-            { question: "23", answer: "1", imageUrl: "" },
-            { question: '24 Frumsem Luftseibahn Staubern for Saxer Lucke  <a href="https://www.google.ch/maps/place/Fr%C3%BCmsen,+Luftseilbahn+Staubern/@47.2443611,9.4631503,2271m/data=!3m1!1e3!4m15!1m8!3m7!1s0x479b252e4863ac73:0x935ab6c681f63560!2sFr%C3%BCmsen,+9467+Sennwald,+Switzerland!3b1!8m2!3d47.24509!4d9.47345!16s%2Fg%2F1233dvnxy!3m5!1s0x479b25d0d11698ef:0xda35d23fa891fb38!8m2!3d47.2476748!4d9.4705109!16s%2Fg%2F11h_10vwhm?entry=ttu" target="_blank">Frumsem</a>"', answer: "1", imageUrl: "https://live.staticflickr.com/65535/53403288644_b9f6296239_c.jpg" },
-            
-
-
-            
-            { question: "24.a MAP OF SWITZERLAND ",
-              answer: "1",
-              imageUrl: "https://www.flickr.com/photos/199787287@N08/53410109790/in/dateposted-public/",
-             
-
-            },
-          
             
 
             { question: '25 Aare Gorge Aareschlucht <a href="https://www.instagram.com/reel/CuJi6KdN7FQ"target="_blank">Instagram</a>', answer: "1", imageUrl: "https://media.myswitzerland.com/image/fetch/c_lfill,g_auto,w_3200,h_1800/f_auto,q_80,fl_keep_iptc/https://www.myswitzerland.com/-/media/st/gadmin/images/partner/di_renzo_aareschlucht_steg_36164.jpg" },
 
 
 
-            { question: "26", answer: "1", imageUrl: "" },
-            { question: "27", answer: "1", imageUrl: "" },
-            { question: "28", answer: "1", imageUrl: "" },
-            { question: "29", answer: "1", imageUrl: "" },
-            { question: "30", answer: "1", imageUrl: "" },
-            { question: "31", answer: "1", imageUrl: "" },
-            { question: "32", answer: "1", imageUrl: "" },
-            { question: "33", answer: "1", imageUrl: "" },
-            { question: "34", answer: "1", imageUrl: "" },
-            { question: "35", answer: "1", imageUrl: "" },
-            { question: "36", answer: "1", imageUrl: "" },
-            { question: "37", answer: "1", imageUrl: "" },
-            { question: "38", answer: "1", imageUrl: "" },
-            { question: "39", answer: "1", imageUrl: "" },
-            { question: "40", answer: "1", imageUrl: "" },
-            { question: "41", answer: "1", imageUrl: "" },
-            { question: "42", answer: "1", imageUrl: "" },
 
-            
+
+
+            { question: " June 25 to June 26 - Holiday Inn Express Milan-Malpensa right by airport", answer: "1", imageUrl: "https://live.staticflickr.com/65535/53402944771_f7ae972ea8_w.jpg", map: '<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d11158.164354885914!2d8.712441!3d45.6399546!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47866165d1517d89%3A0xa1510da0f7510d66!2sHoliday%20Inn%20Express%20Milan%20-%20Malpensa%20Airport%2C%20an%20IHG%20Hotel!5e0!3m2!1sen!2sus!4v1702978530211!5m2!1sen!2sus" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' },
 
 
 
 
-            { question: "43 new question added", answer: "1", imageUrl: "" },
-
-             { question: "44 very new question", answer: "1", imageUrl: "" },
-
-            { question: "45 MA.6.NSO.1.1 Which integer has the greater value? -3 or -5", answer: "-3", imageUrl: "https://d20khd7ddkh5ls.cloudfront.net/positives_and_negatives.jpg" },
-            { question: "46 MA.6.NSO.1.2 opposites ", answer: "1", imageUrl: "" },
-            { question: "47 MA.6.NSO.1.3 ABSOLUTE VALUE ", answer: "1", imageUrl: "" },
-            { question: "48 MA.6.NSO.1.4 ABSOLUTE VALUE OPERATIONS", answer: "1", imageUrl: "" },
-            { question: "49 MA.6.NSO.2.1 MULTIPLYING AND DIVIDING DECIMALS How many places would you move the decimal in your answer for 1.2 x 0.03?", answer: "3", imageUrl: "" },
-            { question: "50 dividing fractions. When do you keep, change, flip?  Type in +, -, x, or /", answer: "/", imageUrl: "https://images.squarespace-cdn.com/content/v1/54905286e4b050812345644c/1616006538446-KFTGCO0RLTBHQHWIBF2D/Snip20210317_3.png" },
-
-            { question: "51 MA.6.NSO.2.3 OPERATIONS WORD PROBLEMS", answer: "1", imageUrl: "" },
-            
-
-            { question: "52    MA.6.NSO.3.1 What is the greatest common factor (GCF) of 280 and 144??", answer: "8", imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKMvNZfyWFzyWN4QAu6QDJ5fmtVIhYlHkLQbxDbO6SHNA--2UDvBhkITnG-_gx3wlcbmg&usqp=CAU" },
-            { question: "53 MA.6.NSO.3.1 What is the least common multiple of 8 and 12  ", answer: "24", imageUrl: "https://static.qumath.in/static/website/old-cdn-static/common-factor/lcm-of-8-and-12-by-listing-multiples-method.png" },
-            { question: "54 MA.6.NSO.3.1  DISTRIBUTIVE PROPERTY", answer: "1", imageUrl: "" },
-            { question: "55 MA.6.NS0.3.3 EXPONENTS", answer: "1", imageUrl: "" },
-            { question: "56 MA.6.NSO.3.4 PRIME FACTORIZATION What is the prime factorization of 42? No spaces and put them in order. Don't forget multiplication signs.", answer: "2x3x7", imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG9V_HolCh-phywvBz8v7nvkdTp8zdHmOA5xfd-yQBoofOcqhqOqhMqu-4YVlL_f1aaU4&usqp=CAU" },
 
 
-             { question: '57 Aare Gorge Aareschlucht <a href="https://www.instagram.com/reel/CuJi6KdN7FQ"target="_blank">Instagram</a>', answer: "1", imageUrl: "https://media.myswitzerland.com/image/fetch/c_lfill,g_auto,w_3200,h_1800/f_auto,q_80,fl_keep_iptc/https://www.myswitzerland.com/-/media/st/gadmin/images/partner/di_renzo_aareschlucht_steg_36164.jpg" },
-
-
-            { question: "58",
+            //Before you go
+             { question: " Get a Swiss E-Vignette Online 53 Euros ",
               answer: "1",
-              instagramReel: '<iframe src="https://www.instagram.com/reel/Cw71zGzsu4z/embed" width="400" height="480" frameborder="0" allowtransparency="true"></iframe>'
+              imageUrl: "",
+              externalLink: '<a href="https://vignetteswitzerland.com/product-details/" target="_blank">Vignette</a>',
+              
             },
 
 
+             { question: " Get an Austrian digital Vignette",
+              answer: "1",
+              imageUrl: "",
+              externalLink: '<a href="https://www.asfinag.at/en/toll/vignette/digital-vignette/" target="_blank">Vignette</a>',
+             
+
+            },
+
+ 
 
 
-            { question: "59 MA.6.NSO.3.3 EXPONENTS What is the value?", answer: "1/64", imageUrl: "https://study.com/cimages/multimages/16/fraction_with_exponent7962331627880981711.jpg" },
-            { question: "60 MA.6.NSO.3.5 fdp equivalents Enter the fraction equivalent of 65%", answer: "13/20", imageUrl: "" },
-            { question: "61 MA.6.NSO.4.1 What is 15 - (-33)", answer: "48", imageUrl: "" },
-            { question: "62 MA.6.NSO.4.2 What is (6)(-8)", answer: "-48", imageUrl: "" },
-            { question: "63 6.AR.1.1 Expressions Type in letter choice", answer: "b", imageUrl: "https://www.flickr.com/photos/199787287@N08/53407654858/in/dateposted-public/" },
-            { question: "64  6.AR.1.2 At a restaurant, persons 10 and under can purchase meals from the children’s menu. Write an inequality to represent the ages of persons who can purchase from the children's menu. Type in <, >, <=, or >=       p ___ 10.  ", answer: "1", imageUrl: "https://www.flickr.com/photos/199787287@N08/53407671353/in/dateposted-public/" },
-            { question: "65 MA.6.AR.1.3 Evaluate 4m + 2 when m = -4", answer: "-14", imageUrl: "" },
-            { question: "66 6.AR.1.4 combine like terms equivalent expressions", answer: "1", imageUrl: "" },
-            { question: "67 6.AR.2.1 one step equations What is the value of c? c + 14 = -20", answer: "-34", imageUrl: "" },
-            { question: "68 6.AR.2.2 A number, n, when added to 20 equals negative 10.  What is the value of n?", answer: "-30", imageUrl: "" },
-            { question: "41", answer: "1", imageUrl: "" },
-            { question: "42", answer: "1", imageUrl: "" },
+            
+            { question: '5 Crumble up feta cheese. Make a beef ball. Roll it in pepper. Crust it with feta all the way around. Smash with parchment paper  <a href="https://www.instagram.com/reel/Cw8F13wLlyc/?igshid=MzRlODBiNWFlZA==" target="_blank">https://www.instagram.com/reel/Cw8F13wLlyc/?igshid=MzRlODBiNWFlZA==</a> "', answer: "1", imageUrl: "https://live.staticflickr.com/65535/53403104976_b194a0260f_w.jpg", instagramReel: '<iframe src="https://www.instagram.com/reel/Cw8F13wLlyc/embed" width="400" height="480" frameborder="0" allowtransparency="true" autoplay="true"></iframe>', },
+            
 
-           { question: "If the ratio of cats to dogs in a pet store is 3:2 and there are 18 cats, how many dogs are there?", answer: "12 dogs", },
-          
-          { question: "What is the area of a trapezoid with bases of 8 cm and 5 cm and a height of 4 cm? _______square centimeters", answer: "26", },
-         
-          { question: "A number is 25% of 80. What is the number?", answer: "20", },
-        
-        
-
-
-           
-
-            // ... add more questions here
+            // Existing questions
+            /* ... */
         ];
 
-
-
-                  // ... existing code ...
-
-          // New function to get the current date without time
-          function getTodayString() {
-              const now = new Date();
-              return now.toISOString().split('T')[0];
-          }
-
-          function startUsageTimer() {
-              const today = getTodayString();
-              const startTime = localStorage.getItem('drillStartTime');
-              const lastUsedDate = localStorage.getItem('lastUsedDate');
-
-              // If the drill hasn't been used today, reset the timer
-              if (lastUsedDate !== today) {
-                  localStorage.setItem('drillStartTime', Date.now());
-                  localStorage.setItem('lastUsedDate', today);
-              } else if (startTime && (Date.now() - startTime) >= 60000) {
-                  // If the user has already used the drill for 1 minute today, show an alert and prevent further use
-                  alert("You've reached your daily limit. Please come back tomorrow.");
-                  throw new Error("Daily limit reached"); // Stop executing further code
-              }
-          }
-
-          function init() {
-              // Call the function to start the usage timer
-              startUsageTimer();
-
-              // The rest of the initialization logic from the second init function
-              document.getElementById('levelDisplay').innerText = `Level: ${currentLevel}`;
-              levelQuestions = shuffleArray(questions.slice(currentLevel - 1, currentLevel + 9));
-              currentQuestionIndex = 0;
-              startTimer();
-              loadNextQuestion();
-          }
-
-// ... rest of your existing code ...
-
-
-        let currentLevel = parseInt(localStorage.getItem('currentLevel')) || 1;
         let currentQuestionIndex = 0;
-        let levelQuestions = [];
-        let timer;
 
-
-        /*
-        function init() {
-            document.getElementById('levelDisplay').innerText = `Level: ${currentLevel}`;
-            levelQuestions = shuffleArray(questions.slice(currentLevel - 1, currentLevel + 9));
-            currentQuestionIndex = 0;
-            startTimer();
-            loadNextQuestion();
-        }
-        */
-
-        function startTimer() {
-            clearTimeout(timer);
-            timer = setTimeout(function() {
-                alert("Time's up!");
-                location.reload(); // Reloads the current level
-            }, 30000); // 30 seconds for the entire level
-        }
-
-        function loadNextQuestion() {
-            if (currentQuestionIndex >= 10) {
-                clearTimeout(timer);
-                alert("Congratulations. You have mastered this level.");
-                currentLevel++;
-                localStorage.setItem('currentLevel', currentLevel);
-                init();
-                return;
+      
+        function loadQuestion(index) {
+            if (index >= 0 && index < questions.length) {
+                currentQuestionIndex = index;
+                localStorage.setItem('currentQuestionIndex', index); // Save to localStorage
+                displayQuestion(questions[currentQuestionIndex]);
+            } else {
+                alert("No more questions in this direction.");
             }
-
-            displayQuestion(levelQuestions[currentQuestionIndex]);
         }
 
-       
+
+
 
 
 
         function displayQuestion(question) {
             document.getElementById('questionText').innerHTML = question.question;
-
             const questionImage = document.getElementById('questionImage');
             if (question.imageUrl) {
                 questionImage.src = question.imageUrl;
-                questionImage.style.display = 'block'; // Show the image if the URL is provided
+                questionImage.style.display = 'block';
             } else {
-                questionImage.style.display = 'none'; // Hide the image element if the URL is not provided
+                questionImage.style.display = 'none';
             }
 
-            const answerInput = document.getElementById('answerInput');
-            answerInput.value = '';
-            answerInput.oninput = () => checkAnswer(question.answer, answerInput.value);
+
 
             if (question.externalLink) {
                 document.getElementById('externalLinkContainer').innerHTML = question.externalLink;
             } else {
-                document.getElementById('externalLinkContainer').innerHTML = ''; // Or set to some default value
+                document.getElementById('externalLinkContainer').innerHTML = '';
             }
 
-            //Handling Instagram Reel
             const reelContainer = document.getElementById('reelContainer'); 
             if (question.instagramReel) {
                 reelContainer.innerHTML = question.instagramReel;
@@ -367,11 +661,7 @@
             } else {
                 reelContainer.style.display = 'none';
             }
-            
 
-        
-
-            // Handling the Map
             const mapContainer = document.getElementById('mapContainer');
             if (question.map) {
                 mapContainer.innerHTML = question.map;
@@ -381,26 +671,38 @@
             }
         }
 
+        function setupQuestionNavigationButtons() {
+            const nextQuestionButton = document.getElementById('nextQuestionButton');
+            nextQuestionButton.onclick = function() {
+                loadQuestion(currentQuestionIndex + 1);
+            };
+
+            const previousQuestionButton = document.getElementById('previousQuestionButton');
+            previousQuestionButton.onclick = function() {
+                loadQuestion(currentQuestionIndex - 1);
+            };
+        }
 
 
-        
-        function checkAnswer(correctAnswer, userAnswer) {
-            if (userAnswer === correctAnswer) {
-                currentQuestionIndex++;
-                loadNextQuestion();
+
+
+        function init() {
+            const savedIndex = parseInt(localStorage.getItem('currentQuestionIndex'));
+            if (!isNaN(savedIndex) && savedIndex < questions.length) {
+                loadQuestion(savedIndex);
+            } else {
+                loadQuestion(0);
             }
+            setupQuestionNavigationButtons();
         }
-        
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
-        
+
+/*
+        function init() {
+            loadQuestion(currentQuestionIndex);
+            setupQuestionNavigationButtons();
+        }*/
+
         init();
-
     </script>
 </body>
 </html>
