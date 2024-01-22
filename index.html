@@ -1,4 +1,4 @@
-Don't clear your history or your level will go back to Level 1. Your level is stored on your school computer. Use the same computer every day. Do this in class, not at home.
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,20 +9,14 @@ Don't clear your history or your level will go back to Level 1. Your level is st
         body { font-family: Arial, sans-serif; }
         #levelDisplay { position: absolute; right: 20px; top: 40px; }
         #questionText {
-        font-size: 30px; /* Change this value to increase or decrease the font size */
-    }
+            font-size: 30px; /* Change this value to increase or decrease the font size */
+        }
         #questionContainer { margin-top: 60px; }
         #questionImage { max-width: 50%; height: auto;}
+        /* Add any additional styles you need here */
     </style>
 </head>
 <body>
-    <div id="userInputContainer">
-    <label for="userNameInput">Enter your name:</label>
-     <input type="text" id="userNameInput" autofocus onkeyup="enterKeyPressed(event)">
-
-    
-</div>
-
     <div id="levelDisplay"></div>
     <div id="externalLinkContainer"></div>
     <div id="questionContainer">
@@ -33,34 +27,261 @@ Don't clear your history or your level will go back to Level 1. Your level is st
     <div id="reelContainer" style="display: none;"></div>
     <div id="mapContainer"></div>
 
-    
-    
-
+    <!-- User Input Form for Limit Reached -->
+    <div id="limitReachedForm" style="display: none;">
+        <p>Please enter your details:</p>
+        <input type="text" id="userNameInput" placeholder="Your Name" readonly>
+        <input type="text" id="userLevelInput" placeholder="Your Current Level" readonly>
+        <button onclick="submitDetails()">Submit</button>
+    </div>
 
     <script>
-
-        let userName; // Declare userName at the global level
-
-
-
-        const questions = [
+        // Place your questions array here
+        const questions = [ 
+            
+          
 
 
+        //newquestions january 14 not in real drill yet
 
 
-            { question: "What is the distance between (4, 5) and (4, 7)? ____units ", answer: "2", imageUrl: "" },
+        { question: "  ", answer: "a", imageUrl: "https://i.postimg.cc/QxMyxHjh/Screen-Shot-2024-01-22-at-5-36-15-AM.jpg" },
+        { question: "  ", answer: "16/625", imageUrl: "https://i.postimg.cc/gkfQSGPp/Screen-Shot-2024-01-22-at-5-37-56-AM.jpg" },
+        { question: "  ", answer: "b", imageUrl: "https://i.postimg.cc/PqB0chDY/Screen-Shot-2024-01-22-at-5-39-09-AM.jpg" },
+        { question: "How do you turn a fraction to a decimal? ", answer: "divide", imageUrl: "https://calcworkshop.com/wp-content/uploads/9-16-as-a-decimal.png" },
+        { question: "What percent is represented by 0.85? ____%", answer: "85", imageUrl: "" },
 
 
-             { question: "What is the distance between (4, 5) and (4, -5)? ____units ", answer: "10", imageUrl: "" },
+
+        { question: "  ", answer: "b", imageUrl: "https://i.postimg.cc/zGNfztKN/Screen-Shot-2024-01-21-at-5-46-39-AM.jpg" },
+        { question: "", answer: "d", imageUrl: "https://i.postimg.cc/NMk4nP60/Screen-Shot-2024-01-21-at-5-48-04-AM.jpg" },
+        { question: "What is the least common multiple of 4 and 12", answer: "12", imageUrl: "" },
+        { question: "What is the GCF of 12 and 20", answer: "4", imageUrl: "https://study.com/cimages/videopreview/videopreview-full/vqwytnne6x.jpg" },
+        { question: "GCF you make a little _______, divide till you can't anymore", answer: "ladder", imageUrl: "" },
+
+
+        { question: "To find unit rate per oz, divide $2.94 by _____", answer: "12", imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-a5ITw1sAlSE6sFD9CsC8TKKfCZJYS0VVew&usqp=CAU" },
+
+
+
+
+
+         { question: "", answer: "t", imageUrl: "https://i.postimg.cc/rFFQtM1Y/Screen-Shot-2024-01-20-at-5-53-51-AM.jpg" },
+
+        { question: "Which elevation is the greatest distance from sea level?", answer: "b", imageUrl: "https://i.postimg.cc/8CwqVjwN/Screen-Shot-2024-01-20-at-5-47-55-AM.jpg" },
+        { question: "What is equal to -|-2|", answer: "-2", imageUrl: "" },
+        { question: "-7 + |-3|", answer: "-4", imageUrl: "" },
+        { question: " ", answer: "c", imageUrl: "https://i.postimg.cc/k5WsK4BK/Screen-Shot-2024-01-20-at-5-51-55-AM.jpg" },
+
+
+
+
+
+
+
+
+        { question: " https://i.postimg.cc/zGNfztKN/Screen-Shot-2024-01-21-at-5-46-39-AM.jpg ", answer: "b", imageUrl: "" },
+        { question: "https://i.postimg.cc/NMk4nP60/Screen-Shot-2024-01-21-at-5-48-04-AM.jpg", answer: "d", imageUrl: "" },
+        { question: "What is the least common multiple of 4 and 12", answer: "12", imageUrl: "" },
+        { question: "What is the GCF of 12 and 20", answer: "4", imageUrl: "https://study.com/cimages/videopreview/videopreview-full/vqwytnne6x.jpg" },
+        { question: "GCF you make a little _______, divide till you can't anymore", answer: "ladder", imageUrl: "" },
+
+
+        { question: "  ", answer: " ", imageUrl: "" },
+
+        { question: " How many places should you move the decimal in both numbers? ___ time  ", answer: "1", imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrM8DJBVIhOLaYaQuW7CCFsa-tI2UOow9-0A&usqp=CAU" },
+        { question: "LOVESONG - Whenever I'm alone with you......<br>Am ___ Fmaj7 E7 ", answer: "g", imageUrl: "" },
+
+        { question: "LOVESONG - Whenever I'm alone with you......<br>Am G Fmaj7 ___ ", answer: "e7", imageUrl: "" },
+
+         { question: "LOVESONG - Whenever I'm alone with you......<br>___ G Fmaj7 E7 ", answer: "am", imageUrl: "" },
+
+
+           { question: "LOVESONG - Whenever I'm alone with you......<br>AM G ____ E7 ", answer: "fmaj7", imageUrl: "" },
+
+        { question: " How ever far away... <br>Fmaj7 Dm Am G ", answer: "g", imageUrl: "" },
+
+        { question: " How ever far away... <br>Fmaj7 Dm Am ___ ", answer: "g", imageUrl: "" },
+
+        { question: " How ever far away... <br>Fmaj7 Dm ___ G ", answer: "am", imageUrl: "" },
+
+
+        { question: " How ever far away... <br>Fmaj7 ___ Am G ", answer: "dm", imageUrl: "" },
+
+        { question: " How ever far away...<br> ____ Dm Am G ", answer: "fmaj7", imageUrl: "" },
+
+       
+
+        //end new jan 14 questions
+
+
+
+        
+
+          //2
+          { question: "Common Gypsy Chord Progression <br> Am6, Dm6, ___ Am6", answer: "e7", imageUrl: "" },
+
+
+          { question: "Am6 notes", answer: "acef#", imageUrl: "" },
+
+
+           { question: "Dm6 notes", answer: "dfab", imageUrl: "" },
+
+           { question: "E7 notes", answer: "eg#bd", imageUrl: "" },
+
+           //30 grams protein, little to no sugar. How many people are two days away from the kingdom of heaven?
+
+           //1
+         { question: "Breakfast: Tortilla Chips, Milk, and Three ounces of Steak 36 to 38 grams of protein", answer: "1", imageUrl: "https://qph.cf2.quoracdn.net/main-qimg-4f8edf715bac5882175fd18c355f6c2e-lq" },
+
+
+
+         
+
+          //3
+
+           { question: "Two eggs and three egg whites 21 grams of protein", answer: "1", imageUrl: "" },
+
+
+
+
+           //4
+
+
+
+           //5
+
+           { question: "Two hard boiled eggs 12 grams protein <br> Milk 8 grams protein <br> Chips 3 grams protein<br> Hot Chocolate 8 grams protein <br> Total: 31 grams of protein", answer: "1", imageUrl: "" },
+
+
+
+            //5
+
+          
+
+
+            { question: "Freygish is Am ___ E7 ", answer: "dm", imageUrl: "" },
+
+
+
+            { question: "Drops of Jupiter cool part one -  GAD ____ F ", answer: "c/e", imageUrl: "" },
+
+            { question: "Drops of Jupiter cool part two - GAD ____  ", answer: "dm", imageUrl: "" },
+
+
+            { question: "c major I-V-vi-IV ", answer: "cgamf", imageUrl: "" },
+
+            { question: "g major I-V-vi-IV  ", answer: "gdemc", imageUrl: "" },
+
+
+
+
+
+            
+
+           //proportions
+          { question: "To find b, multiply a x c and then divide by ____", answer: "d", imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRF6lxzL9jSw5Zjm36Bmsq0_vYMRSj49MlekAuY2wXi5_wWs7nlWyI9Qp8oGEjj9oIQRUA&usqp=CAU" },
+
+        
+
+        //8.2 fractions decimals and percents
+           { question: "To turn a decimal to a percent move the decimal two places to the _____" , answer: "right", imageUrl: "https://d138zd1ktt9iqe.cloudfront.net/media/seo_landing_files/decimal-to-percent-3-1611293673.png" },
+
+
+
+
+        //7.6 Unit Rate
+           { question: "A unit rate will have a ___ in the denominator" , answer: "1", imageUrl: "https://cdn11.bigcommerce.com/s-wpgom64n7v/images/stencil/1280x1280/products/19719/137817/TPT_Unit_Rates_and_Best_Buy_-_Listed_on_TpT_-_Do_Not_Delete_1__78247.1672421800.png?c=2" },
+
+
+
+        //7.2 comparing ratios
+           { question: "Use < or > to compare the fractions" , answer: "<", imageUrl: "https://emathrrisd.files.wordpress.com/2018/02/crossmultiplications.jpg?w=736" },
+
+          //7.1
+           { question: "<strong> OOOBBBBT</strong> <br>Write a ratio for the number of Bs to the total number of letters." , answer: "1/2", imageUrl: "" },
+
+
+
+        //6.6 inequalities
+           { question: "<strong> at least</strong> is a key phrase for what inequality sign?" , answer: ">=", imageUrl: "" },
+
              
-            { question: "When you multiply the same bases, _____ (add, -) the exponents.", answer: "add", imageUrl: "https://i.ytimg.com/vi/7gZBCTw2EmI/maxresdefault.jpg" },
+          //7.1
+           { question: "<strong> OOBBBT</strong> <br>Write a ratio for the number of Bs to the number of Os." , answer: "3/2", imageUrl: "" },
 
 
-            { question: "When you divide the same bases, _____ (add, -) the exponents.", answer: "-", imageUrl: "https://i.ytimg.com/vi/khLTbG0VB3Q/maxresdefault.jpg" },
+
+
+
+        //6.3 one step equations
+           { question: "To solve g - 8 = 25, you _____ 8 to both sides of the equation.", answer: "add", imageUrl: "" },
+
+
+
+
+
+          //5.1 Evaluate Expressions
+           { question: "Evaluate 4c when c = -2", answer: "-8", imageUrl: "" },
+
+
+            //5.5 factoring
+           { question: "Factor 21a + 9", answer: "3(7a+3)", imageUrl: "" },
+
+
+             //5.6 adding expressions
+           { question: "Add these expressions (3z + 1) + (5 + 7z)", answer: "10z+6", imageUrl: "" },
+
+
+
+           
+
+
+         { question: "Simplify (3x + 1) - (2x - 1)", answer: "x+2", imageUrl: "" },
+
+
+
+          { question: "Simplify 10x - (-7 + 6x)", answer: "4x+7", imageUrl: "" },
+
+
+
+          { question: "A rational number is any number that can be written as a _______", answer: "fraction", imageUrl: "" },
+
+
+          
+
+
+            
+            { question: "What is inequality being displayed? <br> <br> x ____2 <br> <br> Type <, >, <=, or >= ", answer: "<", imageUrl: "https://oercommons.s3.amazonaws.com/media/courseware/assets/G06/06-math-math-06-9780328761234-studio-articles-images-mth-6-5-10-9_tch_lessthan2.jpg" },
+
+            
+
+            
+
+            { question: "To solve this equation, multiply both sides by ____", answer: "7/5", imageUrl: "https://www.chilimath.com/wp-content/uploads/2020/02/5-over-7-times-a-equals-20.gif" },
+
+
+
+               
+            { question: 'Type in the "less than" sign" ', answer: "<", imageUrl: "" },
+
+
+
+
+             
+            { question: "Multiply the same bases? _____ the exponents.", answer: "add", imageUrl: "https://i.ytimg.com/vi/7gZBCTw2EmI/maxresdefault.jpg" },
+
+            { question: "How many pints in one quart? ____pints ", answer: "2", imageUrl: "https://i.pinimg.com/474x/7b/de/9d/7bde9dc3162ad50a6cb9e1e6cf226d49.jpg" },
+
+               
 
             { question: "(-12)(-9) = ", answer: "108", imageUrl: "" },
 
-               
+
+
+
+            { question: "What is inequality being displayed? <br> <br> x ____5 <br> <br> Type <, >, <=, or >= ", answer: ">", imageUrl: "https://o.quizlet.com/xp-EOv5M.yF8ayVdkNNspA.jpg" },
+
 
 
               //Proportions
@@ -71,7 +292,7 @@ Don't clear your history or your level will go back to Level 1. Your level is st
               { question: "What is the value of x", answer: "45", imageUrl: "https://i0.wp.com/www.mathswithmum.com/wp-content/uploads/2021/05/Solving-One-Step-Equations-8.gif?resize=600%2C450&ssl=1" },
 
             { question: "(-7)(-9) = ", answer: "63", imageUrl: "" },
-            { question: "To solve the proportion, multiply 3 x 5 and then divide by ____ = ", answer: "11", imageUrl: "https://static.wikia.nocookie.net/khanacademy/images/b/bc/Proportions_1_256.png/revision/latest?cb=20160111203016" },
+            
 
 
             { question: "-3 - (-9) = ", answer: "6", imageUrl: "" },
@@ -82,12 +303,19 @@ Don't clear your history or your level will go back to Level 1. Your level is st
             { question: "(-7)(-8) = ", answer: "56", imageUrl: "" },
             { question: "(4)(-9) = ", answer: "-36", imageUrl: "" },
             
+            { question: "What is inequality being displayed? <br> <br> x ____-4 <br> <br> Type <, >, <=, or >= ", answer: ">=", imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqDpMh8GxmVzD2fWmcsC_q5pc-ep9IB1bj-Q&usqp=CAU" },
 
-            { question: "(-12)(-9) = ", answer: "108", imageUrl: "" },
+
+
+            
 
             { question: "(-12)(-8) = ", answer: "96", imageUrl: "" },
 
             { question: "(12)(7) = ", answer: "84", imageUrl: "" },
+
+
+
+            { question: "What is inequality being displayed? <br> <br> x ____2 1/2 <br> <br> Type <, >, <=, or >= ", answer: "<=", imageUrl: "https://img.sparknotes.com/figures/5/50ca5e784bb7e4242910d5b8a571d103/number_line2.gif" },
 
 
 
@@ -106,6 +334,9 @@ Don't clear your history or your level will go back to Level 1. Your level is st
 
             { question: "(4)(-9) = ", answer: "-36", imageUrl: "" },
 
+            
+            { question: 'Type in the "greater than" sign ', answer: ">", imageUrl: "" },
+
 
 
              
@@ -122,7 +353,7 @@ Don't clear your history or your level will go back to Level 1. Your level is st
 
               { question: "What is the prime factorization of 20? <br><br> a. 4 x 5 <br>b. 2 x 10 <br>c. 2 x 2 x 5 <br>Type in letter choice", answer: "c", imageUrl: "" },
 
-              { question: "What expression is equivalent to 3(5x - 2)<br>a. 15x - 2<br>b. 15x + 6<br>c. 15x - 6", answer: "c", imageUrl: "" },
+              { question: "What expression is equivalent to 3(5x - 2)<br>a. 15x - 2<br>b. 15x - 6<br>c. 15x + 6", answer: "b", imageUrl: "" },
 
 
 
@@ -132,16 +363,20 @@ Don't clear your history or your level will go back to Level 1. Your level is st
               { question: "What is the value of h", answer: "18", imageUrl: "https://slideplayer.com/16610066/96/images/slide_4.jpg" },
 
 
-              //MA.6.AR.3.1 Ratios
-             { question: "A garden has 4 tulips and 3 daisies. What is the ratio of daises to all flowers in the garden? Enter your answer as a fraction.", answer: "3/7", imageUrl: "" },
 
 
-             //MA.6.AR.3.2 Unit Rate
-              { question: "Tom drove 300 miles in 6 hours. What is the unit rate in miles per hour? ____ miles per hour", answer: "50", imageUrl: "" },
-
+             { question: "To solve 4.5m = 10, ____ both sides by 4.5 <br> <br> Type <strong> m </strong> for multiply<br> Type <strong> d </strong> for divide ", answer: "d", imageUrl: "" },
 
 
                { question: "- 8 - 6 = ", answer: "-14", imageUrl: "" },
+
+
+
+
+               
+
+            { question: "Divide the same bases? _____ the exponents. exponents.", answer: "subtract", imageUrl: "https://i.ytimg.com/vi/khLTbG0VB3Q/maxresdefault.jpg" },
+
 
               { question: "- 9 - 7 = ", answer: "-16", imageUrl: "" },
 
@@ -150,9 +385,6 @@ Don't clear your history or your level will go back to Level 1. Your level is st
                // Ordering and Comparing Integers
             { question: "Which integer has the greater value? -3 or -5", answer: "-3", imageUrl: "https://d20khd7ddkh5ls.cloudfront.net/positives_and_negatives.jpg" },
 
-
-            // Opposites
-            { question: "A number and its opposite are equal distances away from 0 on a number line. <br> <br>   Type t for true or f for false.", answer: "t", imageUrl: "" },
 
 
             // Absolute Value
@@ -193,13 +425,13 @@ Don't clear your history or your level will go back to Level 1. Your level is st
 
             
             //Prime Factorization
-            { question: "What is the prime factorization of 30. <br>  Put numbers in order from least to greatest. <br>  No spaces and include x signs. Example: 2x2x3", answer: "1", imageUrl: "https://images.saymedia-content.com/.image/t_share/MTg0MjExNTc3ODk1OTIxNTM5/how-to-write-a-number-as-a-product-of-its-prime-factors.jpg" },
+            { question: "What is the prime factorization of 30. <br>  Put numbers in order from least to greatest. <br>  No spaces and include x signs. Example: 2x2x3", answer: "2x3x5", imageUrl: "https://images.saymedia-content.com/.image/t_share/MTg0MjExNTc3ODk1OTIxNTM5/how-to-write-a-number-as-a-product-of-its-prime-factors.jpg" },
 
         
 
 
 
-            { question: "What is 15 - (-33)", answer: "48", imageUrl: "" },
+            { question: "What is 7 - (-8)", answer: "15", imageUrl: "" },
  
 
 
@@ -212,7 +444,7 @@ Don't clear your history or your level will go back to Level 1. Your level is st
           
 
             //expressions
-              { question: "How many terms does this expression have? 80.6 - 3p - q ", answer: "3", imageUrl: "https://images.squarespace-cdn.com/content/v1/54905286e4b050812345644c/c4bdd683-83a0-4d74-9b75-7011f93bc758/Fig-01.jpg" },
+              { question: "How many terms does this expression have?", answer: "4", imageUrl: "https://images.squarespace-cdn.com/content/v1/54905286e4b050812345644c/c4bdd683-83a0-4d74-9b75-7011f93bc758/Fig-01.jpg" },
 
 
             { question: "Evaluate 4m + 2 when m = -4", answer: "-14", imageUrl: "" },
@@ -232,28 +464,15 @@ Don't clear your history or your level will go back to Level 1. Your level is st
               { question: "- 9 - 6 = ", answer: "-15", imageUrl: "" },
 
 
-              //exponents
-              { question: "Any number raised to the power of 0 is _____ = ", answer: "1", imageUrl: "https://o.quizlet.com/i/j2mUbui1rGvVIHGfpRO3vg.jpg" },
+             
 
 
                { question: "In quadrant ___ (1, 2, 3, 4), the X value is negative and the Y value is positive", answer: "2", imageUrl: "https://i0.wp.com/maths.forkids.education/wp-content/uploads/2019/08/graph-quadrant.jpg?ssl=1" },
 
                
           
-
-              /*//MA.6.AR.3.3 Ratio Tables
-              { question: "____ cups", answer: "12", imageUrl: "https://live.staticflickr.com/65535/53413983999_c09387c719_z.jpg" },
-
-                
-                */
-             
-
-
-
-
-              /* STANDARDS NOT INTRODUCED YET
-
-
+                 { question: "In quadrant ___ (1, 2, 3, 4), the X value is negative and the Y value is positive", answer: "2", imageUrl: "https://i0.wp.com/maths.forkids.education/wp-content/uploads/2019/08/graph-quadrant.jpg?ssl=1" },
+              
 
 
 
@@ -272,27 +491,21 @@ Don't clear your history or your level will go back to Level 1. Your level is st
               { question: "What point is located at (-1, -2)?  Point ____", answer: "d", imageUrl: "https://live.staticflickr.com/65535/53413824503_2f7038789e_z.jpg" },
 
 
-            //MA.6.GR.1.2 DISTANCE ON A COORDINATE PLANE
-              { question: "What is the distance between points K and M? _____ units", answer: "4", imageUrl: "https://live.staticflickr.com/65535/53413662201_8c020d3a35_n.jpg" },
+         
 
                 //quadrants
-             { question: "In quadrant ___ (1, 2, 3, 4), the X value is negative and the Y value is positive", answer: "2", imageUrl: "https://i0.wp.com/maths.forkids.education/wp-content/uploads/2019/08/graph-quadrant.jpg?ssl=1" },
+           
 
                
                 { question: "In quadrant ___ (1, 2, 3, 4), the X value is positive and the Y value is positive", answer: "1", imageUrl: "https://i0.wp.com/maths.forkids.education/wp-content/uploads/2019/08/graph-quadrant.jpg?ssl=1" },
 
                
-                { question: "In quadrant ___ (1, 2, 3, 4), the X value is negative and the Y value is negative", answer: "3", imageUrl: "https://i0.wp.com/maths.forkids.education/wp-content/uploads/2019/08/graph-quadrant.jpg?ssl=1" },
+             
 
                
                 { question: "In quadrant ___ (1, 2, 3, 4), the X value is positive and the Y value is negative", answer: "4", imageUrl: "https://i0.wp.com/maths.forkids.education/wp-content/uploads/2019/08/graph-quadrant.jpg?ssl=1" },
 
             
-              //MA.6.GR.1.3 AREA AND PERIMETER ON COORDINATE PLANE
-              { question: "___square units", answer: "25", imageUrl: "https://live.staticflickr.com/65535/53413675351_268608c944_w.jpg" },
-
-            //MA.6.GR.2.1 AREA OF TRIANGLE
-              { question: "____ square centimeters", answer: "9", imageUrl: "https://live.staticflickr.com/65535/53414014494_2c8bd95f8f_z.jpg" },
 
 
             //MA.6.GR.2.2 AREA OF COMPLEX SHAPES
@@ -308,15 +521,10 @@ Don't clear your history or your level will go back to Level 1. Your level is st
 
 
 
-            // MA.6.GR.2.4 Surface Area of Square Pyramid
-              { question: "Find the surface area of the square pyramid _____ square feet", answer: "28", imageUrl: "https://o.quizlet.com/FFhk7w8pEQDkYJsLGjU5gQ.png" },
+          
 
 
-            //MA.6.DP.1.1 STATISTICAL QUESTIONS
-              { question: "Type in letter choice", answer: "b", imageUrl: "https://live.staticflickr.com/65535/53413878328_aa914450d1_z.jpg" },
 
-            //Area of a Trapezoid
-             { question: "What is the area of a trapezoid with bases of 8 cm and 5 cm and a height of 4 cm? _______square centimeters", answer: "26", },
            
             //Percent Proportion
             { question: "A number is 25% of 80. What is the number?", answer: "20", },
@@ -340,7 +548,9 @@ Don't clear your history or your level will go back to Level 1. Your level is st
 
               { question: "In an ordered pair (x, y) , the second value, y, tells you how far to go to the <br> a. left or right <br> b. up or down<br> Type in letter choice", answer: "b", imageUrl: "" },
 
-            
+               { question: "In quadrant ___ (1, 2, 3, 4), the X value is negative and the Y value is negative", answer: "3", imageUrl: "https://i0.wp.com/maths.forkids.education/wp-content/uploads/2019/08/graph-quadrant.jpg?ssl=1" },
+
+
       
 
             { question: "A rational number is any number that can be written as a _______", answer: "fraction", imageUrl: "https://slideplayer.com/5920475/19/images/slide_1.jpg" },
@@ -350,289 +560,165 @@ Don't clear your history or your level will go back to Level 1. Your level is st
               { question: "What is the mean of 10, 20, 60", answer: "30", imageUrl: "https://cdn.virtualnerd.com/thumbnails/Alg1_14_01_0008-diagram_thumb-lg.png" },
 
                //6.DP.1.2 Mean, Median, Mode
-              { question: "What is the mode?  1, 2, 3, 3, 3, 4, 5", answer: "3", imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKSA5CJf-8BkzqE286lzjxyXhSFUfYqMXarA&usqp=CAU" },
+              { question: "What is the mode?  1, 2, 3, 3, 3, 4, 5", answer: "3", imageUrl: "" },
 
 
-
-            //MORE STANDARDS LEFT OFF ON PAGE 75 IN TEACHERS EDITION
-              { question: "", answer: "", imageUrl: "" },
-
-              { question: "", answer: "", imageUrl: "" },
-
-              { question: "", answer: "", imageUrl: "" },
-
-              { question: "", answer: "", imageUrl: "" },
-
-              { question: "", answer: "", imageUrl: "" },
-
-              { question: "", answer: "", imageUrl: "" },
-
-              { question: "", answer: "", imageUrl: "" },
-
-              { question: "", answer: "", imageUrl: "" },
-
-              { question: "", answer: "", imageUrl: "" },
-
-              { question: "", answer: "", imageUrl: "" },
-
-              { question: "", answer: "", imageUrl: "" },
-
-              { question: "", answer: "", imageUrl: "" },
-
-              { question: "", answer: "", imageUrl: "" },
-
-              { question: "", answer: "", imageUrl: "" },
-                */
-              
-
-            /*/Dividing Fractions Visual 3/4 divided by 1/12
-            { question: "", answer: "9", imageUrl: "https://live.staticflickr.com/65535/53411669802_e37e937ffe_z.jpg" },
 
             
-                //Dividing Fractions Visual 3/5 divided by 1/10
-              { question: "", answer: "6", imageUrl: "https://live.staticflickr.com/65535/53411672162_bd56cc3ec7_w.jpg" },
-          
-
-          // Ordering Rational Numbers 
-            { question: "Type letter choice", answer: "c", imageUrl: "https://live.staticflickr.com/65535/53411695617_70578c4c5b_n.jpg" },
-
-            */
-           
-
-            //MA.6.NSO.2.3 OPERATIONS WORD PROBLEMS. TOO MUCH FOR A SPEED DRILL
-
-
-           
-            /*{ question: "Type in letter choice", answer: "b", imageUrl: "https://live.staticflickr.com/65535/53407654858_d816b9067f.jpg" },
-
-            { question: "People 10 and under can purchase meals from the children’s menu.    <br>  <br>     Write an inequality to represent the ages of persons who can purchase from the children's menu. <br>  <br> Type in <, >, <=, or >=       p ___ 10.  ", answer: "1", imageUrl: "https://live.staticflickr.com/65535/53407671353_3b77549c13_z.jpg" },
-
-
             //exponents
               { question: "Any number raised to the power of 0 is _____ = ", answer: "1", imageUrl: "https://miro.medium.com/v2/resize:fit:592/1*O-8RkyZmYUnjZeibuIcMOw.png" },
 
 
 
 
-             //expressions
-              { question: "How many terms does this expression have? <br>100 + (8 x 6) - 50 + 2 ", answer: "4", imageUrl: "https://images.squarespace-cdn.com/content/v1/54905286e4b050812345644c/c4bdd683-83a0-4d74-9b75-7011f93bc758/Fig-01.jpg" },
-
-
-            */
+             
             
 
-          
-        
-        
+            { question: "(25)(7) = ", answer: "175", imageUrl: "" },
 
 
 
+              { question: " - 6 + (- 4) = ", answer: "-10", imageUrl: "" },
+
+              { question: "- 4 + (- 3) = ", answer: "-7", imageUrl: "" },
+
+            { question: "(-6)(-25) = ", answer: "150", imageUrl: "" },
+
+
+
+
+
+
+            { question: "When you raise a power to a power _____ the powers. <br> Type +, -, x, or / ", answer: "x", imageUrl: "https://i.ytimg.com/vi/39l-MZFUEzY/sddefault.jpg" },
 
            
 
-            // ... add more questions here
+
+
+
+              { question: "What is the prime factorization of 40? <br><br> a. 2 x 4 x 5 <br>b. 2 x 2 x 2 x 5 <br>c. 2 x 4 x 5 <br>Type in letter choice", answer: "b", imageUrl: "" },
+
+            
+
+
+
+
+               // Ordering and Comparing Integers
+            { question: "Which integer has the greater value? -4 or -5", answer: "-4", imageUrl: "https://d20khd7ddkh5ls.cloudfront.net/positives_and_negatives.jpg" },
+
+
+            // Absolute Value
+            { question: "The absolute value of 4 is ____ ", answer: "4", imageUrl: "https://www.katesmathlessons.com/uploads/1/6/1/0/1610286/published/absolute-value-definition-what-is-absolute-value-what-are-absolute-values-calculator-help-lesson-math-examples.png?1649955410" },
+
+
+            // Absolute Value Operations
+            { question: "Find the value of |-3| + |-2| = ____", answer: "5", imageUrl: "" },
+
+            
+
+             // One Step Addition Equation
+            { question: " -4 + x = 10 <br> <br> x = ____", answer: "14", imageUrl: "" },
+
+
+
+
+       
+            
+             
+
+
+
+
+
+
+         
+            
+            /*
+            { question: "(-12)(-9) = ", answer: "108", imageUrl: "" },
+
+            */
+
+
+           
         ];
 
-
-          function enterKeyPressed(event) {
-              if (event.key === 'Enter') {
-                  startDrill();
-              }
-          }
-
-          function startDrill() {
-              userName = document.getElementById('userNameInput').value; // Set the global userName variable
-              if (userName === '') {
-                  alert('Please enter your name.');
-                  return;
-              }
-              document.getElementById('userInputContainer').style.display = 'none';
-              init(userName);
-          }
-
-
-
-                  // ... existing code ...
-
-          // New function to get the current date without time
-          function getTodayString() {
-              const now = new Date();
-              return now.toISOString().split('T')[0];
-          }
-
-
-          function startUsageTimer() {
-              const today = getTodayString();
-              const startTime = localStorage.getItem('drillStartTime');
-              const lastUsedDate = localStorage.getItem('lastUsedDate');
-
-              // If the drill hasn't been used today, reset the timer
-              if (lastUsedDate !== today) {
-                  localStorage.setItem('drillStartTime', Date.now());
-                  localStorage.setItem('lastUsedDate', today);
-              } else if (startTime && (Date.now() - startTime) >= 60000) {
-                  // If the user has already used the drill for 1 minute today, show an alert, send data, and prevent further use
-                  alert("You've reached your daily limit. Please come back tomorrow.");
-
-                  // Call the function here to send data after the daily limit is reached
-                  sendUserDataToGoogleSheet(userName, currentLevel);
-
-                  throw new Error("Daily limit reached"); // Stop executing further code
-              }
-          }
-
-          
-
-          
-
-          function init(userName) {
-              // Call the function to start the usage timer
-              startUsageTimer();
-
-              // The rest of the initialization logic from the second init function
-              document.getElementById('levelDisplay').innerText = `Level: ${currentLevel}`;
-              levelQuestions = shuffleArray(questions.slice(currentLevel - 1, currentLevel + 9));
-              currentQuestionIndex = 0;
-              startTimer();
-              loadNextQuestion();
-
-              localStorage.setItem('userName', userName); // Store the user's name
-    // .
-
-
-          }
-
-// ... rest of your existing code ...
-
-
-        let currentLevel = parseInt(localStorage.getItem('currentLevel')) || 1;
+        let currentLevel = 1; // Set level to 1
+        let userName = localStorage.getItem('userName') || prompt("Enter your name:");
+        localStorage.setItem('userName', userName);
         let currentQuestionIndex = 0;
-        let levelQuestions = [];
-        let timer;
 
-
-        /*
         function init() {
             document.getElementById('levelDisplay').innerText = `Level: ${currentLevel}`;
-            levelQuestions = shuffleArray(questions.slice(currentLevel - 1, currentLevel + 9));
             currentQuestionIndex = 0;
-            startTimer();
             loadNextQuestion();
-        }
-        */
-
-        function startTimer() {
-            clearTimeout(timer);
-            timer = setTimeout(function() {
-                alert("Time's up!");
-                location.reload(); // Reloads the current level
-            }, 40000); // 40 seconds for the entire level
         }
 
         function loadNextQuestion() {
-            if (currentQuestionIndex >= 10) {
-                clearTimeout(timer);
-                alert("Congratulations. You have mastered this level.");
-                currentLevel++;
-                localStorage.setItem('currentLevel', currentLevel);
-                init();
+            if (currentQuestionIndex >= questions.length) {
+                alert("Congratulations. You have completed all questions.");
                 return;
             }
 
-            displayQuestion(levelQuestions[currentQuestionIndex]);
+            displayQuestion(questions[currentQuestionIndex]);
         }
 
-       
+        function displayQuestion(question) {
+            document.getElementById('questionText').innerHTML = question.question;
 
-
-
-            function displayQuestion(question) {
-                document.getElementById('questionText').innerHTML = question.question;
-
-                const questionImage = document.getElementById('questionImage');
-                if (question.imageUrl) {
-                    questionImage.src = question.imageUrl;
-                    questionImage.style.display = 'block'; // Show the image if the URL is provided
-                } else {
-                    questionImage.style.display = 'none'; // Hide the image element if the URL is not provided
-                }
-
-                const answerInput = document.getElementById('answerInput');
-                answerInput.value = '';
-                answerInput.focus(); // Set focus to the answer input
-                answerInput.oninput = () => checkAnswer(question.answer, answerInput.value);
-
-                if (question.externalLink) {
-                    document.getElementById('externalLinkContainer').innerHTML = question.externalLink;
-                } else {
-                    document.getElementById('externalLinkContainer').innerHTML = ''; // Or set to some default value
-                }
-
-                // Handling Instagram Reel, Map, etc.
-                // ... rest of your code for handling other elements ...
-            }
-
-
-            //Handling Instagram Reel
-            const reelContainer = document.getElementById('reelContainer'); 
-            if (question.instagramReel) {
-                reelContainer.innerHTML = question.instagramReel;
-                reelContainer.style.display = 'block';
+            const questionImage = document.getElementById('questionImage');
+            if (question.imageUrl) {
+                questionImage.src = question.imageUrl;
+                questionImage.style.display = 'block';
             } else {
-                reelContainer.style.display = 'none';
+                questionImage.style.display = 'none';
             }
-            
 
-        
+            const answerInput = document.getElementById('answerInput');
+            answerInput.value = '';
+            answerInput.oninput = () => checkAnswer(question.answer, answerInput.value);
+        }
 
-            // Handling the Map
-            const mapContainer = document.getElementById('mapContainer');
-            if (question.map) {
-                mapContainer.innerHTML = question.map;
-                mapContainer.style.display = 'block';
-            } else {
-                mapContainer.style.display = 'none';
-            }
-        
-
-
-
-        
         function checkAnswer(correctAnswer, userAnswer) {
             if (userAnswer === correctAnswer) {
                 currentQuestionIndex++;
                 loadNextQuestion();
             }
         }
-        
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-            return array;
-        }
-        
-        init();
 
-
-
-//new dec 27 code for storing data
-        function sendUserDataToGoogleSheet(userName, currentLevel) {
-            var data = {
-                username: userName,
-                level: currentLevel
+        function submitDetails() {
+            var userName = document.getElementById('userNameInput').value;
+            var userLevel = document.getElementById('userLevelInput').value;
+            var formData = {
+                'name' : userName,
+                'level' : userLevel
             };
 
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'https://script.google.com/macros/s/AKfycbwX5-xh1HglDjQKQJULha42l4tD575aCs2xtCrMq1hRAPz0qrkQtDtsEBwTuM4j5NPc/exec', true);
-            xhr.setRequestHeader('Content-Type', 'application/json');
-            xhr.send(JSON.stringify(data));
+            // Placeholder for Google Apps Script URL
+            var googleAppsScriptURL = 'https://script.google.com/macros/s/AKfycbzWoE2NrNffSm_AZdAe1sykhKAVelPYaY4rO9GnoBTDvTPAXqPB9gv0-00PvQ16D_kJ/exec';
+
+            fetch(googleAppsScriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                cache: 'no-cache',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                redirect: 'follow',
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                console.log('Success:', response);
+                alert('Details submitted successfully.');
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('An error occurred while submitting details.');
+            });
+
+            document.getElementById('limitReachedForm').style.display = 'none';
         }
-//end of dec 27 code
 
-
-
+        init();
     </script>
 </body>
 </html>
