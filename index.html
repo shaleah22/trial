@@ -13,20 +13,13 @@
         #questionContainer { margin-top: 60px; }
         
         #questionImage { 
-        max-width: 400px; /* Maximum width of the image */
-        max-height: 300px; /* Maximum height of the image */
-        width: auto; /* Maintain aspect ratio */
-        height: auto; /* Maintain aspect ratio */
-        display: block; /* Ensures the image is a block-level element */
-        margin: 0 auto; /* Center the image */
-    }
-
-
-
-
-
-
-        
+            max-width: 400px; /* Maximum width of the image */
+            max-height: 300px; /* Maximum height of the image */
+            width: auto; /* Maintain aspect ratio */
+            height: auto; /* Maintain aspect ratio */
+            display: block; /* Ensures the image is a block-level element */
+            margin: 0 auto; /* Center the image */
+        }
     </style>
 </head>
 <body>
@@ -49,193 +42,71 @@
     </div>
 
     <script>
-
-        
         //no right click code
-         window.addEventListener('contextmenu', function (e) {
+        window.addEventListener('contextmenu', function (e) {
             e.preventDefault();
         }, false);
+
+        const googleAppsScriptURL = 'https://script.google.com/macros/s/AKfycbzWoE2NrNffSm_AZdAe1sykhKAVelPYaY4rO9GnoBTDvTPAXqPB9gv0-00PvQ16D_kJ/exec'; // Replace with your Google Apps Script URL
+
+        let currentLevel = 1;
+        let userName = prompt("Enter your name:");
         
-        const questions = [ 
+        fetch(`${googleAppsScriptURL}?name=${userName}`)
+            .then(response => response.json())
+            .then(data => {
+                currentLevel = parseInt(data.level) || 1;
+                localStorage.setItem('currentLevel', currentLevel);
+                init();
+            })
+            .catch(error => {
+                console.error('Error fetching user level:', error);
+                init(); // Proceed with default level if error occurs
+            });
 
-
-
-
-          //area of a triangle
-           { question: "Find the area ____ square feet", answer: "6", imageUrl: "https://cdn-academy.pressidium.com/academy/wp-content/uploads/2020/12/FAQ-Area-and-Perimeter-of-a-Triangle-3.png" },
-
-           //proportions
-          { question: "To find b, multiply a x c and then divide by ____", answer: "d", imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRF6lxzL9jSw5Zjm36Bmsq0_vYMRSj49MlekAuY2wXi5_wWs7nlWyI9Qp8oGEjj9oIQRUA&usqp=CAU" },
-
-        
-         { question: "-4 - 5 = ", answer: "-9", imageUrl: "" },
-
-        //8.2 fractions decimals and percents
-           { question: "To turn a decimal to a percent move the decimal two places to the _____" , answer: "right", imageUrl: "https://d138zd1ktt9iqe.cloudfront.net/media/seo_landing_files/decimal-to-percent-3-1611293673.png" },
-
-
-            { question: "7 - (-3) = ", answer: "10", imageUrl: "" },
-           
-
-        //7.6 Unit Rate
-           { question: "A unit rate will have a ___ in the denominator" , answer: "1", imageUrl: "https://cdn11.bigcommerce.com/s-wpgom64n7v/images/stencil/1280x1280/products/19719/137817/TPT_Unit_Rates_and_Best_Buy_-_Listed_on_TpT_-_Do_Not_Delete_1__78247.1672421800.png?c=2" },
-
-
-          
-                 { question: "In quadrant ___ (1, 2, 3, 4), the X value is negative and the Y value is positive", answer: "2", imageUrl: "https://i0.wp.com/maths.forkids.education/wp-content/uploads/2019/08/graph-quadrant.jpg?ssl=1" },
-              
-
-
-
-{ question: "- 7 - 6 ", answer: "-13", imageUrl: "" },
-{ question: "- 8 - 7 ", answer: "-15", imageUrl: "" },
-{ question: "-57 + 57 ", answer: "0", imageUrl: "" },
-{ question: "-6 - (-4) ", answer: "-2", imageUrl: "" },
-//what could be a value for n
-{ question: " ", answer: "a", imageUrl: "https://i.postimg.cc/6q57ZmFs/Screen-Shot-2024-02-18-at-4-49-22-AM.jpg" },
-{ question: "The temperature in the late afternoon was -7.5 degrees Celsius. It dropped 8.5 degrees by midnight. What was the temperature at midnight?____ degrees ", answer: "-16", imageUrl: "" },
-
-{ question: "What is greater, -4 or -2? ", answer: "-2", imageUrl: "" },
-{ question: "What is the value of -(-65) ", answer: "65", imageUrl: "" },
-//which division sentence is shown by the model at the right 2/3 divided by 1/9
-{ question: " ", answer: "a", imageUrl: "https://i.postimg.cc/wjN3sbys/Screen-Shot-2024-02-16-at-6-02-46-AM.jpg" },
-//marco goes on a recreational scuba diving
-{ question: " ", answer: "d", imageUrl: "https://i.postimg.cc/vZX89F8T/Screen-Shot-2024-02-17-at-6-25-17-AM.jpg" },
-{ question: "A rational number is any number that can be written as a ______", answer: "fraction", imageUrl: "" },
-
-//numberline rational number
-{ question: "What is the value of C? Write answer as a decimal. ", answer: "-1.75", imageUrl: "https://i.postimg.cc/J40tqzgJ/Screen-Shot-2024-02-17-at-6-29-04-AM.jpg" },
-
-//numberline rational number
-{ question: "What is the value of A? Write answer as a fraction. ", answer: "-1/2", imageUrl: "https://i.postimg.cc/J40tqzgJ/Screen-Shot-2024-02-17-at-6-29-04-AM.jpg" },
-
-//numberline rational number
-{ question: "What is the value of B? Write answer as a fraction. ", answer: "3/4", imageUrl: "https://i.postimg.cc/J40tqzgJ/Screen-Shot-2024-02-17-at-6-29-04-AM.jpg" },
-
-
-
-{ question: "What is the reciprocal of 16? ", answer: "1/16", imageUrl: "https://cdn.virtualnerd.com/thumbnails/Alg1_2zi-diagram_thumb-lg.png" },
-
-
-{ question: "", answer: "a", imageUrl: "https://i.postimg.cc/J4yLrPLZ/Screen-Shot-2024-02-16-at-5-15-47-AM.jpg" },
-
-{ question: " ", answer: "a", imageUrl: "https://i.postimg.cc/3r0h7t7p/Screen-Shot-2024-02-16-at-5-16-09-AM.jpg" },
-{ question: " ", answer: "1/2", imageUrl: "https://i.postimg.cc/k5jVrTCz/Screen-Shot-2024-02-16-at-5-19-44-AM.jpg" },
-{ question: "3/4 divided by 1/8 = ", answer: "6", imageUrl: "https://i.postimg.cc/mk4WmGqs/Screen-Shot-2024-02-16-at-5-20-43-AM.jpg" },
-
-
-      
-{ question: " ", answer: "b", imageUrl: "https://i.postimg.cc/NfRbPTYj/Screen-Shot-2024-02-15-at-5-01-52-AM.jpg" },
-{ question: " ", answer: "b", imageUrl: "https://i.postimg.cc/d0C08qrp/Screen-Shot-2024-02-15-at-5-02-01-AM.jpg" },
-{ question: " ", answer: "d", imageUrl: "https://i.postimg.cc/y6cr22yK/Screen-Shot-2024-02-15-at-5-02-31-AM.jpg" },
-{ question: "What is the value of ", answer: "-8", imageUrl: "https://i.postimg.cc/tJv1BBTM/Screen-Shot-2024-02-15-at-5-03-42-AM.jpg" },
-{ question: " ", answer: "-2", imageUrl: "https://i.postimg.cc/k4BZz4XX/Screen-Shot-2024-02-15-at-5-04-11-AM.jpg" },
-
-
-  
-
-  //february 27 2024
-   
-
-{ question: "4(3 + 7) = 12 + 28 is an example of the <br><br> a) commutative property <br> b) associative property <br> c) distributive property ", answer: "c", imageUrl: "" },
-
-
-{ question: "-(4x-9) = ", answer: "-4x+9", imageUrl: "" },
-
-{ question: "Write an algebraic expression for <strong>five less than y </strong>", answer: "y-5", imageUrl: "" },
-{ question: "How many terms does this expression have? ", answer: "3", imageUrl: "https://i.postimg.cc/15Mq6g6g/Screen-Shot-2024-02-22-at-5-35-14-AM.jpg" },
-
-{ question: "(3 + 4) + 7 = 3 + (4 + 7) is an example of the <br><br> a) commutative property <br> b) associative property <br> c) distributive property ", answer: "b", imageUrl: "" },
-
-{ question: "Name a coefficient in the expression ", answer: "-7", imageUrl: "https://i.postimg.cc/15Mq6g6g/Screen-Shot-2024-02-22-at-5-35-14-AM.jpg" },
-
-{ question: "Name a constant in the expression ", answer: "12.5", imageUrl: "https://i.postimg.cc/15Mq6g6g/Screen-Shot-2024-02-22-at-5-35-14-AM.jpg" },
-
-{ question: "Evaluate 3t - 8 when t = 2 ", answer: "-2", imageUrl: "" },
-{ question: "3 + 4 = 4 + 3 is an example of the <br><br> a) commutative property <br> b) associative property <br> c) distributive property ", answer: "a", imageUrl: "" },
-
-{ question: "A ________ number has more than two factors", answer: "composite", imageUrl: "" },
-
-//(-2)^0=?
-{ question: " ", answer: "1", imageUrl: "https://i.postimg.cc/YSGCvJKT/Screen-Shot-2024-02-21-at-3-41-17-AM.jpg" },
-
-
-
-              //exponents
-              { question: "Any number raised to the power of 0 is _____ = ", answer: "1", imageUrl: "https://o.quizlet.com/i/j2mUbui1rGvVIHGfpRO3vg.jpg" },
-
-
-             
-          
-
-            //expressions
-              { question: "How many terms does this expression have?", answer: "4", imageUrl: "https://images.squarespace-cdn.com/content/v1/54905286e4b050812345644c/c4bdd683-83a0-4d74-9b75-7011f93bc758/Fig-01.jpg" },
-
-
-            { question: "Evaluate 4m + 2 when m = 3", answer: "14", imageUrl: "" },
-
-           
-           
-
-
+        const questions = [
+            // (Your list of questions)
+                { question: "-3 - (-9) = ", answer: "6", imageUrl: "" },
+            { question: "-3 - 9 = ", answer: "-12", imageUrl: "" },
+            { question: "3 - 9 = ", answer: "-6", imageUrl: "" },
+            { question: "(-3)(-9) = ", answer: "27", imageUrl: "" },
+            { question: "(-7)(-8) = ", answer: "56", imageUrl: "" },
+            { question: " -7 - 8 = ", answer: "-15", imageUrl: "" },
+             { question: " 7 - 8 = ", answer: "-1", imageUrl: "" },
+            { question: "-6 x 7 = ", answer: "-42", imageUrl: "" },
+            { question: "(-4)(7) =  ", answer: "-28", imageUrl: "" },
+            { question: "(-4) + 7 =  ", answer: "3", imageUrl: "" },
+            { question: "(-4) + (-7) =  ", answer: "-11", imageUrl: "" },
+            { question: "5 x 7 =  ", answer: "35", imageUrl: "" },
+            { question: "7 x 7  = ", answer: "49", imageUrl: "" },
+            { question: "-7(-9) = ", answer: "63", imageUrl: "" },
+            { question: "- 7 - 9  = ", answer: "-16", imageUrl: "" },
+            { question: "- 7 - (-9)  = ", answer: "2", imageUrl: "" },
+            { question: "4 x 8  = ", answer: "32", imageUrl: "" },
+            { question: "(4)(-9) = ", answer: "-36", imageUrl: "" },
+            { question: "4 - 9 = ", answer: "-5", imageUrl: "" },
+            { question: "6 * 9 = ", answer: "54", imageUrl: "" },
+            { question: "-6 + 9 = ", answer: "3", imageUrl: "" },
+            { question: "- 6 - 9 = ", answer: "-15", imageUrl: "" },
 
         ];
 
-
-        //new code aug 26
-
-        function fetchUserData(userName) {
-    const googleAppsScriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL';
-    fetch(`${googleAppsScriptURL}?userName=${userName}`)
-        .then(response => response.json())
-        .then(data => {
-            currentLevel = parseInt(data.level) || 1;
-            localStorage.setItem('currentLevel', currentLevel);
-            init();
-        })
-        .catch(error => {
-            console.error('Error fetching user data:', error);
-            alert('An error occurred while fetching your progress.');
-            init();
-        });
-}
-
-let userName = localStorage.getItem('userName') || prompt("Enter your name:");
-fetchUserData(userName);
-
-
-
-
-
-        //old code
-        let currentLevel = parseInt(localStorage.getItem('currentLevel')) || 1;
-        let userName = localStorage.getItem('userName') || prompt("Enter your name:");
-        localStorage.setItem('userName', userName);
         let currentQuestionIndex = 0;
         let levelQuestions = [];
         let timer;
+        let dailyLimitExceeded = false;
 
         function getTodayString() {
             const now = new Date();
             return now.toISOString().split('T')[0];
         }
 
-
-
-
-        let dailyLimitExceeded = false;
-
-
-
         function startUsageTimer() {
             const today = getTodayString();
             const startTime = localStorage.getItem('drillStartTime');
             const lastUsedDate = localStorage.getItem('lastUsedDate');
 
-
-
-
-             if (lastUsedDate !== today) {
+            if (lastUsedDate !== today) {
                 localStorage.setItem('drillStartTime', Date.now());
                 localStorage.setItem('lastUsedDate', today);
                 dailyLimitExceeded = false; // Reset daily limit status
@@ -251,31 +122,6 @@ fetchUserData(userName);
                 throw new Error("Daily limit reached");
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         function init() {
             startUsageTimer();
@@ -294,8 +140,29 @@ fetchUserData(userName);
             }, 90000); // 90 seconds for the entire level
         }
 
+        function updateLevelInSheet() {
+            const formData = {
+                'name': userName,
+                'level': currentLevel
+            };
 
-
+            fetch(googleAppsScriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                cache: 'no-cache',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                redirect: 'follow',
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                console.log('Level updated successfully.');
+            })
+            .catch((error) => {
+                console.error('Error updating level:', error);
+            });
+        }
 
         function loadNextQuestion() {
             if (dailyLimitExceeded || currentQuestionIndex >= 5) {
@@ -303,6 +170,7 @@ fetchUserData(userName);
                 if (!dailyLimitExceeded) {
                     currentLevel++;
                     localStorage.setItem('currentLevel', currentLevel);
+                    updateLevelInSheet();  // Update level in Google Sheets
                 }
                 init();
                 return;
@@ -310,10 +178,6 @@ fetchUserData(userName);
 
             displayQuestion(levelQuestions[currentQuestionIndex]);
         }
-
-
-
-       
 
         function displayQuestion(question) {
             document.getElementById('questionText').innerHTML = question.question;
@@ -361,24 +225,6 @@ fetchUserData(userName);
             }, 5000); // 5 seconds delay
         }
 
-
-
-
-       
-/*
-
-        function checkAnswer(correctAnswer, userAnswer) {
-            clearTimeout(window.answerTimeout); // Clear the timeout if the user answers
-            if (userAnswer === correctAnswer) {
-                currentQuestionIndex++;
-                loadNextQuestion();
-            }
-        }
-
-*/
-
-
-
         function checkAnswer(correctAnswer, userAnswer) {
             clearTimeout(window.answerTimeout); // Clear the timeout if the user answers
             if (userAnswer === correctAnswer) {
@@ -393,8 +239,6 @@ fetchUserData(userName);
             }
         }
 
-       
-
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -404,51 +248,36 @@ fetchUserData(userName);
         }
 
         function submitDetails() {
-    var userName = document.getElementById('userNameInput').value;
-    var userLevel = document.getElementById('userLevelInput').value;
-    var formData = {
-        'name': userName,
-        'level': userLevel
-    };
+            var userName = document.getElementById('userNameInput').value;
+            var userLevel = document.getElementById('userLevelInput').value;
+            var formData = {
+                'name' : userName,
+                'level' : userLevel
+            };
 
-    var googleAppsScriptURL = 'https://script.google.com/macros/s/AKfycbyqK4Wm7ESZ_q_2xkwvePZOb8SLrPlOqKyPxSdS_7DB6RdWNOPXk3DHveKvYxAMckEx/exec';
+            fetch(googleAppsScriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                cache: 'no-cache',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                redirect: 'follow',
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                console.log('Success:', response);
+                alert('Details submitted successfully.');
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('An error occurred while submitting details.');
+            });
 
-    fetch(googleAppsScriptURL, {
-        method: 'POST',
-        cache: 'no-cache',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData)
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-        alert('Details submitted successfully.');
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('An error occurred while submitting details.');
-    });
-
-    document.getElementById('limitReachedForm').style.display = 'none';
-}
-
-
-
-
-
-
-
-
-
-
+            document.getElementById('limitReachedForm').style.display = 'none';
+        }
 
         init();
-
-
-        // JavaScript code remains unchanged
-        // ...
     </script>
 </body>
 </html>
