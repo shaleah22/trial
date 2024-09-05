@@ -3,174 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Review and Fluency Drill</title>
+    <title>Math Facts Drill</title>
     <style>
-        body { font-family: Arial, sans-serif; }
-        #levelDisplay { position: absolute; right: 20px; top: 40px; }
-        #questionText {
-            font-size: 30px; /* Change this value to increase or decrease the font size */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
         }
-        #questionContainer { margin-top: 60px; }
-        
-        #questionImage { 
-            max-width: 400px; /* Maximum width of the image */
-            max-height: 300px; /* Maximum height of the image */
-            width: auto; /* Maintain aspect ratio */
-            height: auto; /* Maintain aspect ratio */
-            display: block; /* Ensures the image is a block-level element */
-            margin: 0 auto; /* Center the image */
+        #levelDisplay {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        #questionContainer {
+            margin-top: 60px;
+            text-align: center;
+        }
+        #questionImage {
+            max-width: 50%;
+            display: block;
+            margin: 0 auto;
+        }
+        #answerInput {
+            font-size: 16px;
+            padding: 5px;
         }
     </style>
 </head>
 <body>
-    <div id="levelDisplay"></div>
-    <div id="externalLinkContainer"></div>
+    <div id="levelDisplay">Level: 1</div>
     <div id="questionContainer">
         <img id="questionImage" src="" alt="Question Image">
         <p id="questionText"></p>
         <input type="text" id="answerInput" autofocus>
     </div>
-    <div id="reelContainer" style="display: none;"></div>
-    <div id="mapContainer"></div>
-
-    <!-- User Input Form for Limit Reached -->
-    <div id="limitReachedForm" style="display: none;">
-        <p>Please enter your details:</p>
-        <input type="text" id="userNameInput" placeholder="Your Name" readonly>
-        <input type="text" id="userLevelInput" placeholder="Your Current Level" readonly>
-        <button onclick="submitDetails()">Submit today's score</button>
-    </div>
 
     <script>
-        //no right click code
-        window.addEventListener('contextmenu', function (e) {
-            e.preventDefault();
-        }, false);
-
-        const googleAppsScriptURL = 'https://script.google.com/macros/s/AKfycbzWoE2NrNffSm_AZdAe1sykhKAVelPYaY4rO9GnoBTDvTPAXqPB9gv0-00PvQ16D_kJ/exec'; // Replace with your Google Apps Script URL
-
-        let currentLevel = 1;
-        let userName = prompt("Enter your name:");
-        
-        fetch(`${googleAppsScriptURL}?name=${userName}`)
-            .then(response => response.json())
-            .then(data => {
-                currentLevel = parseInt(data.level) || 1;
-                localStorage.setItem('currentLevel', currentLevel);
-                init();
-            })
-            .catch(error => {
-                console.error('Error fetching user level:', error);
-                init(); // Proceed with default level if error occurs
-            });
-
+        // List of questions for the drill
         const questions = [
-            // (Your list of questions)
-                { question: "-3 - (-9) = ", answer: "6", imageUrl: "" },
-            { question: "-3 - 9 = ", answer: "-12", imageUrl: "" },
-            { question: "3 - 9 = ", answer: "-6", imageUrl: "" },
-            { question: "(-3)(-9) = ", answer: "27", imageUrl: "" },
-            { question: "(-7)(-8) = ", answer: "56", imageUrl: "" },
-            { question: " -7 - 8 = ", answer: "-15", imageUrl: "" },
-             { question: " 7 - 8 = ", answer: "-1", imageUrl: "" },
-            { question: "-6 x 7 = ", answer: "-42", imageUrl: "" },
-            { question: "(-4)(7) =  ", answer: "-28", imageUrl: "" },
-            { question: "(-4) + 7 =  ", answer: "3", imageUrl: "" },
-            { question: "(-4) + (-7) =  ", answer: "-11", imageUrl: "" },
-            { question: "5 x 7 =  ", answer: "35", imageUrl: "" },
-            { question: "7 x 7  = ", answer: "49", imageUrl: "" },
-            { question: "-7(-9) = ", answer: "63", imageUrl: "" },
-            { question: "- 7 - 9  = ", answer: "-16", imageUrl: "" },
-            { question: "- 7 - (-9)  = ", answer: "2", imageUrl: "" },
-            { question: "4 x 8  = ", answer: "32", imageUrl: "" },
-            { question: "(4)(-9) = ", answer: "-36", imageUrl: "" },
-            { question: "4 - 9 = ", answer: "-5", imageUrl: "" },
-            { question: "6 * 9 = ", answer: "54", imageUrl: "" },
-            { question: "-6 + 9 = ", answer: "3", imageUrl: "" },
-            { question: "- 6 - 9 = ", answer: "-15", imageUrl: "" },
-
+            { id: 1, question: "-3 - (-9) = ", answer: "6", imageUrl: "" },
+            { id: 2, question: "-3 - 9 = ", answer: "-12", imageUrl: "" },
+            { id: 3, question: "3 - 9 = ", answer: "-6", imageUrl: "" },
+            { id: 4, question: "(-3)(-9) = ", answer: "27", imageUrl: "" },
+            { id: 5, question: "(-7)(-8) = ", answer: "56", imageUrl: "" },
+            { id: 6, question: " -7 - 8 = ", answer: "-15", imageUrl: "" },
+            { id: 7, question: " 7 - 8 = ", answer: "-1", imageUrl: "" },
+            { id: 8, question: "-6 x 7 = ", answer: "-42", imageUrl: "" },
+            { id: 9, question: "(-4)(7) =  ", answer: "-28", imageUrl: "" },
+            { id: 10, question: "(-4) + 7 =  ", answer: "3", imageUrl: "" }
+            // Add more questions as needed
         ];
 
+        let userName = localStorage.getItem('userName') || prompt("Enter your name:");
+        localStorage.setItem('userName', userName);
+        let currentLevel = 1; // Default level
         let currentQuestionIndex = 0;
         let levelQuestions = [];
+        let correctAnswersCount = 0;
         let timer;
-        let dailyLimitExceeded = false;
 
-        function getTodayString() {
-            const now = new Date();
-            return now.toISOString().split('T')[0];
-        }
+        // Function to retrieve the user's last level from Google Sheets
+        function getUserLevelFromGoogleSheets() {
+            const url = `https://script.google.com/macros/s/AKfycbwXMFczqnveMnpGGR4YDyb767tjZgNlDXzS26BTOh8HHz1frBrRyZ80DSU768_JQM_MxQ/exec?username=${encodeURIComponent(userName)}`;
 
-        function startUsageTimer() {
-            const today = getTodayString();
-            const startTime = localStorage.getItem('drillStartTime');
-            const lastUsedDate = localStorage.getItem('lastUsedDate');
 
-            if (lastUsedDate !== today) {
-                localStorage.setItem('drillStartTime', Date.now());
-                localStorage.setItem('lastUsedDate', today);
-                dailyLimitExceeded = false; // Reset daily limit status
-            } else if (startTime && (Date.now() - startTime) >= 90000) {
-                alert(userName + ", you've reached your daily limit. Please come back tomorrow. Current Level: " + currentLevel);
-                dailyLimitExceeded = true;
-                
-                // Show the input form
-                document.getElementById('limitReachedForm').style.display = 'block';
-                document.getElementById('userNameInput').value = userName;
-                document.getElementById('userLevelInput').value = currentLevel;
 
-                throw new Error("Daily limit reached");
-            }
+/*
+https://script.google.com/macros/s/AKfycbwXMFczqnveMnpGGR4YDyb767tjZgNlDXzS26BTOh8HHz1frBrRyZ80DSU768_JQM_MxQ/exec
+*/
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    currentLevel = data.level || 1; // Retrieve level or default to 1
+                    localStorage.setItem('currentLevel', currentLevel); // Store the level locally
+                    init(); // Initialize the drill with the correct level
+                })
+                .catch(error => {
+                    console.error('Error fetching user data:', error);
+                    init(); // Initialize with default level if there's an error
+                });
         }
 
         function init() {
-            startUsageTimer();
             document.getElementById('levelDisplay').innerText = `Level: ${currentLevel}`;
-            levelQuestions = shuffleArray(questions.slice(currentLevel - 1, currentLevel + 5));
+            levelQuestions = shuffleArray(questions.slice(currentLevel - 1, currentLevel + 4)); // Select 5 questions based on level
             currentQuestionIndex = 0;
-            startTimer();
+            correctAnswersCount = 0;
             loadNextQuestion();
         }
 
-        function startTimer() {
-            clearTimeout(timer);
-            timer = setTimeout(function() {
-                alert("Time's up!");
-                location.reload(); // Reloads the current level
-            }, 90000); // 90 seconds for the entire level
-        }
-
-        function updateLevelInSheet() {
-            const formData = {
-                'name': userName,
-                'level': currentLevel
-            };
-
-            fetch(googleAppsScriptURL, {
-                method: 'POST',
-                mode: 'no-cors',
-                cache: 'no-cache',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                redirect: 'follow',
-                body: JSON.stringify(formData)
-            })
-            .then(response => {
-                console.log('Level updated successfully.');
-            })
-            .catch((error) => {
-                console.error('Error updating level:', error);
-            });
-        }
-
         function loadNextQuestion() {
-            if (dailyLimitExceeded || currentQuestionIndex >= 5) {
-                clearTimeout(timer);
-                if (!dailyLimitExceeded) {
+            if (currentQuestionIndex >= levelQuestions.length) {
+                if (correctAnswersCount >= 5) {
                     currentLevel++;
                     localStorage.setItem('currentLevel', currentLevel);
-                    updateLevelInSheet();  // Update level in Google Sheets
+                    saveUserLevelToGoogleSheets();
                 }
                 init();
                 return;
@@ -194,29 +123,6 @@
             answerInput.value = '';
             answerInput.oninput = () => checkAnswer(question.answer, answerInput.value);
 
-            if (question.externalLink) {
-                document.getElementById('externalLinkContainer').innerHTML = question.externalLink;
-            } else {
-                document.getElementById('externalLinkContainer').innerHTML = '';
-            }
-
-            const reelContainer = document.getElementById('reelContainer');
-            if (question.instagramReel) {
-                reelContainer.innerHTML = question.instagramReel;
-                reelContainer.style.display = 'block';
-            } else {
-                reelContainer.style.display = 'none';
-            }
-
-            const mapContainer = document.getElementById('mapContainer');
-            if (question.map) {
-                mapContainer.innerHTML = question.map;
-                mapContainer.style.display = 'block';
-            } else {
-                mapContainer.style.display = 'none';
-            }
-
-            // Clear existing timeout and set a new one
             clearTimeout(window.answerTimeout);
             window.answerTimeout = setTimeout(() => {
                 if (answerInput.value === '') {
@@ -228,10 +134,10 @@
         function checkAnswer(correctAnswer, userAnswer) {
             clearTimeout(window.answerTimeout); // Clear the timeout if the user answers
             if (userAnswer === correctAnswer) {
+                correctAnswersCount++;
                 currentQuestionIndex++;
                 loadNextQuestion();
             } else {
-                // Show the correct answer after 5 seconds
                 window.answerTimeout = setTimeout(() => {
                     alert('The correct answer is: ' + correctAnswer);
                     loadNextQuestion(); // Load the next question even if the answer is incorrect
@@ -247,37 +153,20 @@
             return array;
         }
 
-        function submitDetails() {
-            var userName = document.getElementById('userNameInput').value;
-            var userLevel = document.getElementById('userLevelInput').value;
-            var formData = {
-                'name' : userName,
-                'level' : userLevel
-            };
-
-            fetch(googleAppsScriptURL, {
+        // Function to save the user's level to Google Sheets
+        function saveUserLevelToGoogleSheets() {
+            const url = `https://script.google.com/macros/s/AKfycbwXMFczqnveMnpGGR4YDyb767tjZgNlDXzS26BTOh8HHz1frBrRyZ80DSU768_JQM_MxQ/exec`;
+            fetch(url, {
                 method: 'POST',
-                mode: 'no-cors',
-                cache: 'no-cache',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                redirect: 'follow',
-                body: JSON.stringify(formData)
+                body: JSON.stringify({ username: userName, level: currentLevel }),
+                headers: { 'Content-Type': 'application/json' }
             })
-            .then(response => {
-                console.log('Success:', response);
-                alert('Details submitted successfully.');
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                alert('An error occurred while submitting details.');
-            });
-
-            document.getElementById('limitReachedForm').style.display = 'none';
+            .then(response => console.log('User level saved:', response))
+            .catch(error => console.error('Error saving user data:', error));
         }
 
-        init();
+        // Start by fetching the user's level
+        getUserLevelFromGoogleSheets();
     </script>
 </body>
 </html>
