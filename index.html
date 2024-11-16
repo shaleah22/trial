@@ -1,172 +1,145 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Math Facts Drill</title>
+    <title>French Vocabulary Drill</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            text-align: center;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
         }
         #levelDisplay {
             position: absolute;
             top: 10px;
-            right: 20px;
-            font-size: 18px;
-            font-weight: bold;
+            right: 10px;
+            font-size: 1.5em;
+            background-color: #ffebcd;
+            padding: 10px;
+            border-radius: 5px;
         }
-        #questionContainer {
-            margin-top: 60px;
-            text-align: center;
+        #questionText {
+            font-size: 2em;
+            margin: 20px;
         }
         #questionImage {
-            max-width: 50%;
-            display: block;
-            margin: 0 auto;
+            max-width: 200px;
+            max-height: 200px;
+            margin: 10px auto;
         }
-        #answerInput {
-            font-size: 16px;
-            padding: 5px;
+        input[type="text"] {
+            font-size: 1.5em;
+            padding: 10px;
+            width: 300px;
+        }
+        #limitReachedForm {
+            display: none;
         }
     </style>
 </head>
 <body>
     <div id="levelDisplay">Level: 1</div>
-    <div id="questionContainer">
-        <img id="questionImage" src="" alt="Question Image">
-        <p id="questionText"></p>
-        <input type="text" id="answerInput" autofocus>
-    </div>
-
+    <div id="questionText"></div>
+    <img id="questionImage" alt="Question Image" style="display:none;">
+    <input type="text" id="answerInput" autofocus>
+    <form id="limitReachedForm">
+        <h2>Daily limit reached</h2>
+        <p id="userDetails"></p>
+        <button type="button" onclick="submitScore()">Submit</button>
+    </form>
     <script>
-        // List of questions for the drill
         const questions = [
-            { id: 1, question: "-3 - (-9) = ", answer: "6", imageUrl: "" },
-            { id: 2, question: "-3 - 9 = ", answer: "-12", imageUrl: "" },
-            { id: 3, question: "3 - 9 = ", answer: "-6", imageUrl: "" },
-            { id: 4, question: "(-3)(-9) = ", answer: "27", imageUrl: "" },
-            { id: 5, question: "(-7)(-8) = ", answer: "56", imageUrl: "" },
-            { id: 6, question: " -7 - 8 = ", answer: "-15", imageUrl: "" },
-            { id: 7, question: " 7 - 8 = ", answer: "-1", imageUrl: "" },
-            { id: 8, question: "-6 x 7 = ", answer: "-42", imageUrl: "" },
-            { id: 9, question: "(-4)(7) =  ", answer: "-28", imageUrl: "" },
-            { id: 10, question: "(-4) + 7 =  ", answer: "3", imageUrl: "" }
-            // Add more questions as needed
+            { question: "Bonjour", answer: "Hello" },
+            { question: "Merci", answer: "Thank you" },
+            { question: "Pomme", answer: "Apple" },
+            { question: "Chat", answer: "Cat" },
+            { question: "Chien", answer: "Dog" },
+            { question: "Livre", answer: "Book" },
+            { question: "Rouge", answer: "Red" },
+            { question: "Bleu", answer: "Blue" },
+            { question: "Vert", answer: "Green" },
+            { question: "Fleur", answer: "Flower" },
+            { question: "Maison", answer: "House" },
+            { question: "École", answer: "School" },
+            { question: "Fromage", answer: "Cheese" },
+            { question: "Eau", answer: "Water" },
+            { question: "Soleil", answer: "Sun" },
+            { question: "Lune", answer: "Moon" },
+            { question: "Voiture", answer: "Car" },
+            { question: "Arbre", answer: "Tree" },
+            { question: "Cheval", answer: "Horse" },
+            { question: "Oiseau", answer: "Bird" }
         ];
 
-        let userName = localStorage.getItem('userName') || prompt("Enter your name:");
-        localStorage.setItem('userName', userName);
-        let currentLevel = 1; // Default level
-        let currentQuestionIndex = 0;
-        let levelQuestions = [];
-        let correctAnswersCount = 0;
-        let timer;
-
-        // Function to retrieve the user's last level from Google Sheets
-        function getUserLevelFromGoogleSheets() {
-            const url = `https://script.google.com/macros/s/AKfycbwXMFczqnveMnpGGR4YDyb767tjZgNlDXzS26BTOh8HHz1frBrRyZ80DSU768_JQM_MxQ/exec?username=${encodeURIComponent(userName)}`;
-
-
-
-/*
-https://script.google.com/macros/s/AKfycbwXMFczqnveMnpGGR4YDyb767tjZgNlDXzS26BTOh8HHz1frBrRyZ80DSU768_JQM_MxQ/exec
-*/
-
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    currentLevel = data.level || 1; // Retrieve level or default to 1
-                    localStorage.setItem('currentLevel', currentLevel); // Store the level locally
-                    init(); // Initialize the drill with the correct level
-                })
-                .catch(error => {
-                    console.error('Error fetching user data:', error);
-                    init(); // Initialize with default level if there's an error
-                });
-        }
-
-        function init() {
-            document.getElementById('levelDisplay').innerText = `Level: ${currentLevel}`;
-            levelQuestions = shuffleArray(questions.slice(currentLevel - 1, currentLevel + 4)); // Select 5 questions based on level
-            currentQuestionIndex = 0;
-            correctAnswersCount = 0;
-            loadNextQuestion();
-        }
-
-        function loadNextQuestion() {
-            if (currentQuestionIndex >= levelQuestions.length) {
-                if (correctAnswersCount >= 5) {
-                    currentLevel++;
-                    localStorage.setItem('currentLevel', currentLevel);
-                    saveUserLevelToGoogleSheets();
-                }
-                init();
-                return;
-            }
-
-            displayQuestion(levelQuestions[currentQuestionIndex]);
-        }
-
-        function displayQuestion(question) {
-            document.getElementById('questionText').innerHTML = question.question;
-
-            const questionImage = document.getElementById('questionImage');
-            if (question.imageUrl) {
-                questionImage.src = question.imageUrl;
-                questionImage.style.display = 'block';
-            } else {
-                questionImage.style.display = 'none';
-            }
-
-            const answerInput = document.getElementById('answerInput');
-            answerInput.value = '';
-            answerInput.oninput = () => checkAnswer(question.answer, answerInput.value);
-
-            clearTimeout(window.answerTimeout);
-            window.answerTimeout = setTimeout(() => {
-                if (answerInput.value === '') {
-                    alert('The correct answer is: ' + question.answer);
-                }
-            }, 5000); // 5 seconds delay
-        }
-
-        function checkAnswer(correctAnswer, userAnswer) {
-            clearTimeout(window.answerTimeout); // Clear the timeout if the user answers
-            if (userAnswer === correctAnswer) {
-                correctAnswersCount++;
-                currentQuestionIndex++;
-                loadNextQuestion();
-            } else {
-                window.answerTimeout = setTimeout(() => {
-                    alert('The correct answer is: ' + correctAnswer);
-                    loadNextQuestion(); // Load the next question even if the answer is incorrect
-                }, 5000);
-            }
-        }
+        let currentLevel = 1;
+        let questionIndex = 0;
+        let sessionTime = 30;
+        let currentQuestionSet = [];
+        const username = prompt("Please enter your username") || "Guest";
+        document.getElementById("levelDisplay").innerText = `Level: ${currentLevel}`;
 
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [array[i], array[j]] = [array[j], array[i]];
             }
-            return array;
         }
 
-        // Function to save the user's level to Google Sheets
-        function saveUserLevelToGoogleSheets() {
-            const url = `https://script.google.com/macros/s/AKfycbwXMFczqnveMnpGGR4YDyb767tjZgNlDXzS26BTOh8HHz1frBrRyZ80DSU768_JQM_MxQ/exec`;
+        function loadQuestions(level) {
+            const startIndex = Math.max(0, level - 1);
+            const endIndex = Math.min(questions.length, level + 4);
+            currentQuestionSet = questions.slice(startIndex, endIndex);
+            shuffleArray(currentQuestionSet);
+            questionIndex = 0;
+            displayQuestion();
+        }
+
+        function displayQuestion() {
+            if (questionIndex < currentQuestionSet.length) {
+                const currentQuestion = currentQuestionSet[questionIndex];
+                document.getElementById("questionText").innerText = currentQuestion.question;
+                document.getElementById("answerInput").value = "";
+                document.getElementById("answerInput").focus();
+            } else {
+                currentLevel++;
+                loadQuestions(currentLevel);
+                document.getElementById("levelDisplay").innerText = `Level: ${currentLevel}`;
+            }
+        }
+
+        function checkAnswer() {
+            const userAnswer = document.getElementById("answerInput").value.trim().toLowerCase();
+            const correctAnswer = currentQuestionSet[questionIndex].answer.toLowerCase();
+            if (userAnswer === correctAnswer) {
+                questionIndex++;
+                displayQuestion();
+            }
+        }
+
+        function startUsageTimer() {
+            setTimeout(() => {
+                document.getElementById("limitReachedForm").style.display = "block";
+                document.getElementById("userDetails").innerText = `${username}, you reached Level ${currentLevel}`;
+            }, sessionTime * 1000);
+        }
+
+        function submitScore() {
+            const url = "https://script.google.com/macros/s/AKfycbzWoE2NrNffSm_AZdAe1sykhKAVelPYaY4rO9GnoBTDvTPAXqPB9gv0-00PvQ16D_kJ/exec";
             fetch(url, {
-                method: 'POST',
-                body: JSON.stringify({ username: userName, level: currentLevel }),
-                headers: { 'Content-Type': 'application/json' }
-            })
-            .then(response => console.log('User level saved:', response))
-            .catch(error => console.error('Error saving user data:', error));
+                method: "POST",
+                body: JSON.stringify({ username, level: currentLevel }),
+                headers: { "Content-Type": "application/json" }
+            }).then(response => alert("Score submitted!"))
+            .catch(error => alert("Error submitting score: " + error));
         }
 
-        // Start by fetching the user's level
-        getUserLevelFromGoogleSheets();
+        document.getElementById("answerInput").addEventListener("input", checkAnswer);
+        loadQuestions(currentLevel);
+        startUsageTimer();
     </script>
 </body>
 </html>
