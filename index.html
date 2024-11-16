@@ -9,48 +9,44 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #f0f8ff;
             margin: 0;
             padding: 0;
+        }
+        #questionText {
+            font-size: 24px;
+            margin: 20px 0;
         }
         #levelDisplay {
             position: absolute;
             top: 10px;
             right: 10px;
-            font-size: 1.5em;
-            background-color: #ffebcd;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        #questionText {
-            font-size: 2em;
-            margin: 20px;
-        }
-        #questionImage {
-            max-width: 200px;
-            max-height: 200px;
-            margin: 10px auto;
-        }
-        input[type="text"] {
-            font-size: 1.5em;
-            padding: 10px;
-            width: 300px;
         }
         #limitReachedForm {
             display: none;
         }
+        input {
+            font-size: 20px;
+        }
+        img {
+            max-width: 100px;
+            max-height: 100px;
+            display: block;
+            margin: 10px auto;
+        }
     </style>
 </head>
 <body>
-    <div id="levelDisplay">Level: 1</div>
+    <div id="levelDisplay"></div>
+    <h1>French Vocabulary Drill</h1>
+    <div id="questionImage"></div>
     <div id="questionText"></div>
-    <img id="questionImage" alt="Question Image" style="display:none;">
     <input type="text" id="answerInput" autofocus>
     <form id="limitReachedForm">
-        <h2>Daily limit reached</h2>
-        <p id="userDetails"></p>
-        <button type="button" onclick="submitScore()">Submit</button>
+        <p>Time is up!</p>
+        <p id="userInfo"></p>
+        <button type="submit">Submit</button>
     </form>
+
     <script>
         const questions = [
             { question: "Bonjour", answer: "Hello" },
@@ -58,30 +54,69 @@
             { question: "Pomme", answer: "Apple" },
             { question: "Chat", answer: "Cat" },
             { question: "Chien", answer: "Dog" },
+            { question: "Maison", answer: "House" },
+            { question: "École", answer: "School" },
             { question: "Livre", answer: "Book" },
+            { question: "Voiture", answer: "Car" },
             { question: "Rouge", answer: "Red" },
             { question: "Bleu", answer: "Blue" },
             { question: "Vert", answer: "Green" },
-            { question: "Fleur", answer: "Flower" },
-            { question: "Maison", answer: "House" },
-            { question: "École", answer: "School" },
-            { question: "Fromage", answer: "Cheese" },
+            { question: "Jaune", answer: "Yellow" },
+            { question: "Noir", answer: "Black" },
+            { question: "Blanc", answer: "White" },
             { question: "Eau", answer: "Water" },
+            { question: "Pain", answer: "Bread" },
+            { question: "Fromage", answer: "Cheese" },
+            { question: "Lait", answer: "Milk" },
+            { question: "Café", answer: "Coffee" },
+            { question: "Thé", answer: "Tea" },
+            { question: "Table", answer: "Table" },
+            { question: "Chaise", answer: "Chair" },
+            { question: "Fenêtre", answer: "Window" },
+            { question: "Porte", answer: "Door" },
+            { question: "Arbre", answer: "Tree" },
+            { question: "Fleur", answer: "Flower" },
             { question: "Soleil", answer: "Sun" },
             { question: "Lune", answer: "Moon" },
-            { question: "Voiture", answer: "Car" },
-            { question: "Arbre", answer: "Tree" },
-            { question: "Cheval", answer: "Horse" },
-            { question: "Oiseau", answer: "Bird" }
+            { question: "Étoile", answer: "Star" },
+            { question: "Mer", answer: "Sea" },
+            { question: "Montagne", answer: "Mountain" },
+            { question: "Ville", answer: "City" },
+            { question: "Rue", answer: "Street" },
+            { question: "Pont", answer: "Bridge" },
+            { question: "Chemin", answer: "Path" },
+            { question: "Temps", answer: "Time" },
+            { question: "Amour", answer: "Love" },
+            { question: "Amitié", answer: "Friendship" }
         ];
 
-        let currentLevel = 1;
-        let questionIndex = 0;
-        let sessionTime = 30;
-        let currentQuestionSet = [];
-        const username = prompt("Please enter your username") || "Guest";
-        document.getElementById("levelDisplay").innerText = `Level: ${currentLevel}`;
+        let level = 1;
+        let currentIndex = 0;
+        let username = "";
 
+        const questionText = document.getElementById("questionText");
+        const answerInput = document.getElementById("answerInput");
+        const levelDisplay = document.getElementById("levelDisplay");
+        const limitReachedForm = document.getElementById("limitReachedForm");
+        const userInfo = document.getElementById("userInfo");
+
+        // Fetch user data
+        async function fetchUserData() {
+            const response = await fetch("https://script.google.com/macros/s/AKfycbzWoE2NrNffSm_AZdAe1sykhKAVelPYaY4rO9GnoBTDvTPAXqPB9gv0-00PvQ16D_kJ/exec?username=" + username, { mode: 'no-cors' });
+            return level = 1; // Fallback to level 1
+        }
+
+        // Initialize the drill
+        async function initializeDrill() {
+            username = prompt("Please enter your username:");
+            await fetchUserData();
+            updateLevelDisplay();
+            shuffleArray(questions);
+            loadQuestion();
+            startUsageTimer();
+        }
+
+        // Shuffle questions
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -89,57 +124,43 @@
             }
         }
 
-        function loadQuestions(level) {
-            const startIndex = Math.max(0, level - 1);
-            const endIndex = Math.min(questions.length, level + 4);
-            currentQuestionSet = questions.slice(startIndex, endIndex);
-            shuffleArray(currentQuestionSet);
-            questionIndex = 0;
-            displayQuestion();
-        }
-
-        function displayQuestion() {
-            if (questionIndex < currentQuestionSet.length) {
-                const currentQuestion = currentQuestionSet[questionIndex];
-                document.getElementById("questionText").innerText = currentQuestion.question;
-                document.getElementById("answerInput").value = "";
-                document.getElementById("answerInput").focus();
-            } else {
-                currentLevel++;
-                loadQuestions(currentLevel);
-                document.getElementById("levelDisplay").innerText = `Level: ${currentLevel}`;
+        // Load question
+        function loadQuestion() {
+            if (currentIndex >= 5) {
+                currentIndex = 0;
+                level++;
+                updateLevelDisplay();
+                shuffleArray(questions);
             }
+            const question = questions[currentIndex];
+            questionText.textContent = question.question;
+            answerInput.value = "";
+            answerInput.focus();
         }
 
-        function checkAnswer() {
-            const userAnswer = document.getElementById("answerInput").value.trim().toLowerCase();
-            const correctAnswer = currentQuestionSet[questionIndex].answer.toLowerCase();
-            if (userAnswer === correctAnswer) {
-                questionIndex++;
-                displayQuestion();
+        // Check answer
+        answerInput.addEventListener("input", () => {
+            const question = questions[currentIndex];
+            if (answerInput.value.trim().toLowerCase() === question.answer.toLowerCase()) {
+                currentIndex++;
+                loadQuestion();
             }
+        });
+
+        // Update level display
+        function updateLevelDisplay() {
+            levelDisplay.textContent = "Level: " + level;
         }
 
+        // Start usage timer
         function startUsageTimer() {
             setTimeout(() => {
-                document.getElementById("limitReachedForm").style.display = "block";
-                document.getElementById("userDetails").innerText = `${username}, you reached Level ${currentLevel}`;
-            }, sessionTime * 1000);
+                userInfo.textContent = `User: ${username}, Level: ${level}`;
+                limitReachedForm.style.display = "block";
+            }, 30000);
         }
 
-        function submitScore() {
-            const url = "https://script.google.com/macros/s/AKfycbzWoE2NrNffSm_AZdAe1sykhKAVelPYaY4rO9GnoBTDvTPAXqPB9gv0-00PvQ16D_kJ/exec";
-            fetch(url, {
-                method: "POST",
-                body: JSON.stringify({ username, level: currentLevel }),
-                headers: { "Content-Type": "application/json" }
-            }).then(response => alert("Score submitted!"))
-            .catch(error => alert("Error submitting score: " + error));
-        }
-
-        document.getElementById("answerInput").addEventListener("input", checkAnswer);
-        loadQuestions(currentLevel);
-        startUsageTimer();
+        initializeDrill();
     </script>
 </body>
 </html>
